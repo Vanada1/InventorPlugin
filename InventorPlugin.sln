@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventorApi", "InventorApi\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenceBuildingVm", "FenceBuildingVm\FenceBuildingVm.csproj", "{D4A76587-7F9D-4EEA-BB80-6B756A9113EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCore", "TestCore\TestCore.csproj", "{20C1A606-579B-445D-8A29-AB813F2ECA05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D4A76587-7F9D-4EEA-BB80-6B756A9113EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4A76587-7F9D-4EEA-BB80-6B756A9113EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4A76587-7F9D-4EEA-BB80-6B756A9113EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C1A606-579B-445D-8A29-AB813F2ECA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C1A606-579B-445D-8A29-AB813F2ECA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C1A606-579B-445D-8A29-AB813F2ECA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C1A606-579B-445D-8A29-AB813F2ECA05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

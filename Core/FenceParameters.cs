@@ -150,8 +150,8 @@ namespace Core
 			get => _immersionDepth;
 			set
 			{
-				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight : ColumnWidth) / 3;
-				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight : FenceLength) * 0.5;
+				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight : TopFenceHeight) / 3;
+				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight : TopFenceHeight) * 0.5;
 				SetValue(ref _immersionDepth, value, minValue,
 					maxValue, nameof(ImmersionDepth), ImmersionDepthFieldName);
 				CheckFenceHeight();
@@ -166,8 +166,8 @@ namespace Core
 			get => _topFenceHeight;
 			set
 			{
-				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 : ColumnWidth) * 2;
-				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : FenceLength) * 3;
+				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 : ImmersionDepth) * 2;
+				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
 					maxValue, nameof(TopFenceHeight), TopFenceHeightFieldName);
 				CheckFenceHeight();
@@ -211,6 +211,13 @@ namespace Core
 					return;
 				}
 			}
+			else
+			{
+				if (Errors.ContainsKey(propertyName))
+				{
+					Errors.Remove(propertyName);
+				}
+			}
 
 			Set(ref field, value);
 		}
@@ -221,14 +228,19 @@ namespace Core
 		private void CheckFenceHeight()
 		{
 			var currentHeight = ImmersionDepth + TopFenceHeight;
+			const string key = nameof(TopFenceHeight);
 			if (currentHeight >= MinHeight && currentHeight <= MaxHeight)
 			{
+				if (Errors.ContainsKey(key))
+				{
+					Errors.Remove(key);
+				}
+
 				return;
 			}
 
 			var errorMessage = $"{ImmersionDepthFieldName} и {TopFenceHeightFieldName}:" +
 			                   $" сумма значений не входит диапазон {MinHeight} — {MaxHeight}";
-			const string key = nameof(TopFenceHeight);
 			if (!Errors.ContainsKey(key))
 			{
 				Errors.Add(key, errorMessage);
@@ -237,7 +249,7 @@ namespace Core
 
 		#endregion
 
-		#region --INotifyDataErrorInfo --
+		#region -- INotifyDataErrorInfo --
 
 		/// <inheritdoc/>
 		public bool HasErrors => Errors.Any();
@@ -248,7 +260,7 @@ namespace Core
 		/// <inheritdoc/>
 		public IEnumerable GetErrors(string propertyName)
 		{
-			return Errors.ContainsKey(propertyName) ? Errors[propertyName] : null;
+			return Errors.ContainsKey(propertyName) ? Errors[propertyName] : string.Empty;
 		}
 
 		#endregion
