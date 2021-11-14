@@ -61,5 +61,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{0ad9376d-4ba2-450e-b152-b356aa9cbebd}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InventorApi\InventorApi.csproj">
+      <Project>{42a5108f-769d-4355-9033-bca165e255ce}</Project>
+      <Name>InventorApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
