@@ -187,12 +187,6 @@ namespace Core
 
 		#endregion
 
-		#region -- Public Methods --
-
-
-
-		#endregion
-
 		#region -- Private Methods --
 
 		/// <summary>
@@ -204,15 +198,14 @@ namespace Core
 		/// <param name="maxValue">Максимально возможное значение.</param>
 		/// <param name="propertyName">Имя свойства.</param>
 		/// <param name="fieldName">Русское название поля.</param>
-		private void SetValue(ref double field, double value, double minValue, double maxValue, string propertyName,
-			string fieldName)
+		private void SetValue(ref double field, double value, double minValue, double maxValue, string propertyName)
 		{
 			if (!Validator.Validate(value, minValue, maxValue))
 			{
 				if (!Errors.ContainsKey(propertyName))
 				{
 					Errors.Add(propertyName,
-						$"{fieldName}: значение не входит диапазон {minValue} — {maxValue}");
+						$": значение не входит диапазон {minValue} — {maxValue}");
 					return;
 				}
 			}
@@ -233,7 +226,7 @@ namespace Core
 		private void CheckFenceHeight()
 		{
 			var currentHeight = ImmersionDepth + TopFenceHeight;
-			const string key = nameof(TopFenceHeight);
+			const string key = nameof(TopFenceHeight) + nameof(ImmersionDepth);
 			if (currentHeight >= MinHeight && currentHeight <= MaxHeight)
 			{
 				if (Errors.ContainsKey(key))
@@ -244,8 +237,7 @@ namespace Core
 				return;
 			}
 
-			var errorMessage = $"{ImmersionDepthFieldName} и {TopFenceHeightFieldName}:" +
-			                   $" сумма значений не входит диапазон {MinHeight} — {MaxHeight}";
+			var errorMessage = $": сумма значений не входит диапазон {MinHeight} — {MaxHeight}";
 			if (!Errors.ContainsKey(key))
 			{
 				Errors.Add(key, errorMessage);

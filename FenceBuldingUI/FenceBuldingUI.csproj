@@ -98,7 +98,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FenceBuildingVm\FenceBuildingVm.csproj">
+      <Project>{d4a76587-7f9d-4eea-bb80-6b756a9113ec}</Project>
+      <Name>FenceBuildingVm</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Print.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
