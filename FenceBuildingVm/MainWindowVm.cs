@@ -9,6 +9,8 @@ using InventorApi;
 
 namespace FenceBuildingVm
 {
+	// Background="#eaa" цвет для ошибки.
+
 	public class MainWindowVm : ViewModelBase
 	{
 		#region -- Fields --
@@ -158,7 +160,7 @@ namespace FenceBuildingVm
 		/// <summary>
 		/// Команда создания забора.
 		/// </summary>
-		public ICommand BuildCommand;
+		public ICommand BuildCommand { get; }
 
 		#endregion
 

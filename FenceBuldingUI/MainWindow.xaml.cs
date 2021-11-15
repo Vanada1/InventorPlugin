@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using FenceBuildingVm;
 
 namespace FenceBuildingUI
 {
@@ -7,14 +8,16 @@ namespace FenceBuildingUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		/// <summary>
+		/// VM главного окна.
+		/// </summary>
+		public MainWindowVm _mainWindowVm;
+
 		public MainWindow()
 		{
 			InitializeComponent();
-		}
-
-		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-		{
-			MessageBox.Show("Есть ошибки. Проверьте!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+			_mainWindowVm = new MainWindowVm(new MessageBoxService());
+			DataContext = _mainWindowVm;
 		}
 	}
 }

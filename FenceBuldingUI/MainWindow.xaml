@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fenceBuildingVm="clr-namespace:FenceBuildingVm;assembly=FenceBuildingVm"
     Title="Забор"
     ResizeMode="NoResize"
     Width="600"
     Height="400"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance fenceBuildingVm:MainWindowVm}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -43,8 +44,8 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Style="{StaticResource CustomTextBoxStyle}"
-                Text="asdas"
-                Background="#eaa"/>
+                Text="{Binding FenceLength}"
+                />
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
@@ -59,7 +60,7 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 Style="{StaticResource CustomTextBoxStyle}"
-                Text="80"/>
+                Text="{Binding ColumnWidth}"/>
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="2"
@@ -73,7 +74,8 @@
             <TextBox
                 Grid.Row="3"
                 Grid.Column="1"
-                Style="{StaticResource CustomTextBoxStyle}"/>
+                Style="{StaticResource CustomTextBoxStyle}"
+                Text="{Binding ImmersionDepth}"/>
             <TextBlock
                 Grid.Row="3"
                 Grid.Column="2"
@@ -87,7 +89,8 @@
             <TextBox
                 Grid.Row="4"
                 Grid.Column="1"
-                Style="{StaticResource CustomTextBoxStyle}"/>
+                Style="{StaticResource CustomTextBoxStyle}"
+                Text="{Binding TopFenceHeight}"/>
             <TextBlock
                 Grid.Row="4"
                 Grid.Column="2"
@@ -101,7 +104,8 @@
             <TextBox
                 Grid.Row="5"
                 Grid.Column="1"
-                Style="{StaticResource CustomTextBoxStyle}"/>
+                Style="{StaticResource CustomTextBoxStyle}"
+                Text="{Binding DistanceLowerBaffles}"/>
             <TextBlock
                 Grid.Row="5"
                 Grid.Column="2"
@@ -115,7 +119,8 @@
             <TextBox
                 Grid.Row="6"
                 Grid.Column="1"
-                Style="{StaticResource CustomTextBoxStyle}"/>
+                Style="{StaticResource CustomTextBoxStyle}"
+                Text="{Binding DistanceUpperBaffles}"/>
             <TextBlock
                 Grid.Row="6"
                 Grid.Column="2"
@@ -128,7 +133,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Style="{StaticResource CustomButtonStyle}"
-                Click="ButtonBase_OnClick">
+                Command="{Binding BuildCommand}">
                 <TextBlock FontSize="17" Text="Построить"/>
             </Button>
         </Grid>
@@ -141,10 +146,8 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Padding="5"
-            Background="LightBlue">
-            <Run Text="Длина забора: введены буквы, а нужны цифры"/>
-            <LineBreak/>
-            <Run Text="Общая высота забора: введены значения, не входящие в границы (промежуток 1500-2000 мм)"/>
+            Background="LightBlue"
+            Text="{Binding ErrorText}">
         </TextBlock>
     </Grid>
 </Window>
