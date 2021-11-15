@@ -222,7 +222,7 @@ namespace FenceBuildingVm
 		{
 			if (_fenceParameters.HasErrors)
 			{
-				_messageBoxService.Show("Не все ошибки исправлены!", MessageType.Error);
+				_messageBoxService.Show("Не все ошибки исправлены!", "Ошибка!", MessageType.Error);
 				return;
 			}
 
@@ -233,7 +233,7 @@ namespace FenceBuildingVm
 			}
 			catch (ApplicationException e)
 			{
-				_messageBoxService.Show(e.Message, MessageType.Error);
+				_messageBoxService.Show(e.Message, "Ошибка!", MessageType.Error);
 			}
 		}
 
