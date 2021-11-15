@@ -25,16 +25,6 @@ namespace Core
 		/// </summary>
 		private const double MaxHeight = 2000.0;
 
-		/// <summary>
-		/// Поле на русском <see cref="_topFenceHeight"/>.
-		/// </summary>
-		private const string TopFenceHeightFieldName = "Высота верхней части забора";
-
-		/// <summary>
-		/// Поле на русском <see cref="_immersionDepth"/>.
-		/// </summary>
-		private const string ImmersionDepthFieldName = "Глубина погружения";
-
 		#endregion
 
 		#region -- Fields --
@@ -88,9 +78,8 @@ namespace Core
 			{
 				const double minValue = 10.0;
 				const double maxValue = 70.0;
-				const string fieldName = "Ширина столбика";
 				SetValue(ref _columnWidth, value, minValue,
-					maxValue, nameof(ColumnWidth), fieldName);
+					maxValue, nameof(ColumnWidth));
 			}
 		}
 
@@ -104,9 +93,8 @@ namespace Core
 			{
 				var minValue = double.IsNaN(ColumnWidth) ? 10.0 : ColumnWidth;
 				var maxValue = double.IsNaN(FenceLength) ? 3000.0 : FenceLength;
-				const string fieldName = "Расстояние между нижними перегородками";
 				SetValue(ref _distanceLowerBaffles, value, minValue,
-					maxValue, nameof(DistanceLowerBaffles), fieldName);
+					maxValue, nameof(DistanceLowerBaffles));
 			}
 		}
 
@@ -120,9 +108,8 @@ namespace Core
 			{
 				var minValue = double.IsNaN(ColumnWidth) ? 10.0 : ColumnWidth;
 				var maxValue = double.IsNaN(FenceLength) ? 3000.0 : FenceLength;
-				const string fieldName = "Расстояние между верхними перегородками";
 				SetValue(ref _distanceUpperBaffles, value, minValue,
-					maxValue, nameof(DistanceUpperBaffles), fieldName);
+					maxValue, nameof(DistanceUpperBaffles));
 			}
 		}
 
@@ -136,9 +123,8 @@ namespace Core
 			{
 				const double minValue = 1000.0;
 				const double maxValue = 3000.0;
-				const string fieldName = "Длина забора";
 				SetValue(ref _fenceLength, value, minValue,
-					maxValue, nameof(FenceLength), fieldName);
+					maxValue, nameof(FenceLength));
 			}
 		}
 
@@ -153,7 +139,7 @@ namespace Core
 				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight : TopFenceHeight) / 3;
 				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight : TopFenceHeight) * 0.5;
 				SetValue(ref _immersionDepth, value, minValue,
-					maxValue, nameof(ImmersionDepth), ImmersionDepthFieldName);
+					maxValue, nameof(ImmersionDepth));
 				CheckFenceHeight();
 			}
 		}
@@ -169,7 +155,7 @@ namespace Core
 				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 : ImmersionDepth) * 2;
 				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
-					maxValue, nameof(TopFenceHeight), TopFenceHeightFieldName);
+					maxValue, nameof(TopFenceHeight));
 				CheckFenceHeight();
 			}
 		}
@@ -183,7 +169,15 @@ namespace Core
 
 		#region -- Constructors --
 
-
+		public FenceParameters()
+		{
+			FenceLength = 2000.0;
+			ColumnWidth = 10.0;
+			DistanceLowerBaffles = 30.0;
+			DistanceUpperBaffles = 40.0;
+			ImmersionDepth = 500.0;
+			TopFenceHeight = 1000.0;
+		}
 
 		#endregion
 
@@ -197,7 +191,6 @@ namespace Core
 		/// <param name="minValue">Минимально возможное значение.</param>
 		/// <param name="maxValue">Максимально возможное значение.</param>
 		/// <param name="propertyName">Имя свойства.</param>
-		/// <param name="fieldName">Русское название поля.</param>
 		private void SetValue(ref double field, double value, double minValue, double maxValue, string propertyName)
 		{
 			if (!Validator.Validate(value, minValue, maxValue))

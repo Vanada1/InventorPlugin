@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 using Core;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using InventorApi;
 
 namespace FenceBuildingVm
 {
@@ -12,7 +16,12 @@ namespace FenceBuildingVm
 		/// <summary>
 		/// Параметры забора.
 		/// </summary>
-		private FenceParameters _fenceParameters;
+		private readonly FenceParameters _fenceParameters;
+
+		/// <summary>
+		/// Сервис окна сообщения.
+		/// </summary>
+		private readonly IMessageBoxService _messageBoxService;
 
 		/// <summary>
 		/// Словарь русских полей.
@@ -36,8 +45,9 @@ namespace FenceBuildingVm
 				{
 					_fenceParameters.TopFenceHeight = doubleValue;
 					RaisePropertyChanged(propertyName);
-					RaisePropertyChanged(nameof(ErrorText));
 				}
+
+				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -54,8 +64,9 @@ namespace FenceBuildingVm
 				{
 					_fenceParameters.TopFenceHeight = doubleValue;
 					RaisePropertyChanged(propertyName);
-					RaisePropertyChanged(nameof(ErrorText));
 				}
+
+				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -72,8 +83,9 @@ namespace FenceBuildingVm
 				{
 					_fenceParameters.TopFenceHeight = doubleValue;
 					RaisePropertyChanged(propertyName);
-					RaisePropertyChanged(nameof(ErrorText));
 				}
+
+				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -90,8 +102,9 @@ namespace FenceBuildingVm
 				{
 					_fenceParameters.TopFenceHeight = doubleValue;
 					RaisePropertyChanged(propertyName);
-					RaisePropertyChanged(nameof(ErrorText));
 				}
+
+				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -108,8 +121,9 @@ namespace FenceBuildingVm
 				{
 					_fenceParameters.TopFenceHeight = doubleValue;
 					RaisePropertyChanged(propertyName); 
-					RaisePropertyChanged(nameof(ErrorText));
 				}
+
+				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -126,8 +140,9 @@ namespace FenceBuildingVm
 				{
 					_fenceParameters.TopFenceHeight = doubleValue;
 					RaisePropertyChanged(propertyName);
-					RaisePropertyChanged(nameof(ErrorText));
 				}
+
+				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -140,13 +155,16 @@ namespace FenceBuildingVm
 
 		#region -- Commands --
 
-
+		/// <summary>
+		/// Команда создания забора.
+		/// </summary>
+		public ICommand BuildCommand;
 
 		#endregion
 
 		#region -- Constructors --
 
-		public MainWindowVm()
+		public MainWindowVm(IMessageBoxService messageBoxService)
 		{
 			_russianFields = new Dictionary<string, string>
 			{
@@ -158,6 +176,10 @@ namespace FenceBuildingVm
 				{ nameof(TopFenceHeight), "Высота верхней части забора" },
 				{ nameof(TopFenceHeight) + nameof(ImmersionDepth), "Глубина погружения и Высота верхней части забора" },
 			};
+
+			_messageBoxService = messageBoxService;
+			_fenceParameters = new FenceParameters();
+			BuildCommand = new RelayCommand(BuildFence);
 		}
 
 		#endregion
@@ -191,6 +213,28 @@ namespace FenceBuildingVm
 		{
 			return _fenceParameters.Errors.Keys.Aggregate(string.Empty,
 				(current, key) => current + (_russianFields[key] + _fenceParameters.Errors[key]));
+		}
+
+		/// <summary>
+		/// Построить забор.
+		/// </summary>
+		private void BuildFence()
+		{
+			if (_fenceParameters.HasErrors)
+			{
+				_messageBoxService.Show("Не все ошибки исправлены!", MessageType.Error);
+				return;
+			}
+
+			var fenceBuilder = new FenceBuilder(_fenceParameters);
+			try
+			{
+				fenceBuilder.BuildFence();
+			}
+			catch (ApplicationException e)
+			{
+				_messageBoxService.Show(e.Message, MessageType.Error);
+			}
 		}
 
 		#endregion

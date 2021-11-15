@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace InventorApi
 {
@@ -60,8 +59,7 @@ namespace InventorApi
 				}
 				catch (Exception)
 				{
-					//MessageBox.Show(ex2.ToString());
-					MessageBox.Show(@"Не получилось запустить Inventor.");
+					throw new ApplicationException(@"Не получилось запустить Inventor.");
 				}
 			}
 
