@@ -361,6 +361,25 @@ namespace TestCore
 
 		#endregion
 
+
+		#region -- Test FenceHeight --
+
+		[Test(Description = "Проверка корректного получения значения свойства FenceHeight.")]
+		public void TestFenceHeight_CorrectGetValue()
+		{
+			var fenceParameters = FenceParameters;
+			fenceParameters.TopFenceHeight = 1000;
+			fenceParameters.ImmersionDepth = 500;
+
+			var expected = fenceParameters.TopFenceHeight + fenceParameters.ImmersionDepth;
+
+			var actual = fenceParameters.FenceHeight;
+
+			Assert.AreEqual(expected, actual, "Вернулось некорректное значение.");
+		}
+
+		#endregion
+
 		#region -- Test SetValue --
 
 		[Test(Description = "Повторное присвоение некорректного значения.")]

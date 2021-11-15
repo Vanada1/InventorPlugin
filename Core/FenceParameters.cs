@@ -174,6 +174,11 @@ namespace Core
 			}
 		}
 
+		/// <summary>
+		/// Возвращает общую высоту забора.
+		/// </summary>
+		public double FenceHeight => TopFenceHeight + ImmersionDepth;
+
 		#endregion
 
 		#region -- Constructors --
