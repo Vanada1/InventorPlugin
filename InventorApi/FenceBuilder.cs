@@ -28,7 +28,7 @@ namespace InventorApi
 		/// <summary>
 		/// Координата средней палки.
 		/// </summary>
-		private double MiddleStickY => _fenceParameters.FenceHeight - 2 * _fenceParameters.ColumnWidth;
+		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight + _fenceParameters.ImmersionDepth;
 
 		#endregion
 
@@ -86,7 +86,7 @@ namespace InventorApi
 				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth, MiddleStickY - columnWidth),
 			};
 
-			var sketchXy = _inventorWrapper.MakeNewSketch(1, 0);
+			var sketchXy = _inventorWrapper.MakeNewSketch(3, 0);
 
 			var rectangles = new List<SketchEntitiesEnumerator>
 			{
@@ -97,24 +97,7 @@ namespace InventorApi
 				sketchXy.SketchLines.AddAsTwoPointRectangle(points[7],points[8]),
 			};
 
-			Extrude(sketchXy);
-		}
-
-		/// <summary>
-		/// Выдавливание.
-		/// </summary>
-		/// <param name="sketch">Эскиз.</param>
-		private void Extrude(PlanarSketch sketch)
-		{
-			var sketchProfile = sketch.Profiles.AddForSolid();
-
-			var extrudeDef =
-				_inventorWrapper.PartDefinition.Features.ExtrudeFeatures.CreateExtrudeDefinition(sketchProfile,
-					PartFeatureOperationEnum.kJoinOperation);
-			extrudeDef.SetDistanceExtent(_fenceParameters.ColumnWidth, PartFeatureExtentDirectionEnum.kSymmetricExtentDirection);
-			var extrude = _inventorWrapper.PartDefinition.Features.ExtrudeFeatures.Add(extrudeDef);
-			var objectCollection = _inventorWrapper.CreateObjectCollection();
-			objectCollection.Add(extrude);
+			_inventorWrapper.Extrude(sketchXy, _fenceParameters.ColumnWidth);
 		}
 
 		/// <summary>
@@ -158,7 +141,7 @@ namespace InventorApi
 
 			var currentPoint1 = _inventorWrapper.TransientGeometry.CreatePoint2d(deltaX, y1);
 			var currentPoint2 = _inventorWrapper.TransientGeometry.CreatePoint2d(deltaX + columnWidth, y2);
-			var sketchXy = _inventorWrapper.MakeNewSketch(1, 0);
+			var sketchXy = _inventorWrapper.MakeNewSketch(3, 0);
 			var rectangles = new List<SketchEntitiesEnumerator>();
 
 			while (fenceLength - columnWidth - currentPoint2.X > columnWidth)
@@ -173,7 +156,7 @@ namespace InventorApi
 						currentPoint2.Y);
 			}
 
-			Extrude(sketchXy);
+			_inventorWrapper.Extrude(sketchXy, _fenceParameters.ColumnWidth);
 		}
 
 		#endregion

@@ -86,8 +86,27 @@ namespace InventorApi
 		{
 			var mainPlane = PartDefinition.WorkPlanes[n];       //[1 - ZY; 2 - ZX; 3 - XY]
 			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(mainPlane, offset, false);
+			offsetPlane.Visible = false;
 			var sketch = PartDefinition.Sketches.Add(offsetPlane, false);
 			return sketch;
+		}
+
+		/// <summary>
+		/// Выдавливание.
+		/// </summary>
+		/// <param name="sketch">Эскиз.</param>
+		public void Extrude(PlanarSketch sketch, double distance)
+		{
+			sketch.Visible = false;
+			var sketchProfile = sketch.Profiles.AddForSolid();
+			
+			var extrudeDef =
+				PartDefinition.Features.ExtrudeFeatures.CreateExtrudeDefinition(sketchProfile,
+					PartFeatureOperationEnum.kJoinOperation);
+			extrudeDef.SetDistanceExtent(distance, PartFeatureExtentDirectionEnum.kSymmetricExtentDirection);
+			var extrude = PartDefinition.Features.ExtrudeFeatures.Add(extrudeDef);
+			var objectCollection = CreateObjectCollection();
+			objectCollection.Add(extrude);
 		}
 
 		/// <summary>

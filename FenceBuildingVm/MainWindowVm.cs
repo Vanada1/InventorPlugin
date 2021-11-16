@@ -29,7 +29,37 @@ namespace FenceBuildingVm
 		/// Словарь русских полей.
 		/// </summary>
 		private readonly Dictionary<string, string> _russianFields;
-		
+
+		/// <summary>
+		/// Ширины столбика.
+		/// </summary>
+		private string _columnWidth = string.Empty;
+
+		/// <summary>
+		/// Расстояние между нижними перегородками.
+		/// </summary>
+		private string _distanceLowerBaffles = string.Empty;
+
+		/// <summary>
+		/// Расстояние между верхними перегородками.
+		/// </summary>
+		private string _distanceUpperBaffles = string.Empty;
+
+		/// <summary>
+		/// Высота забора.
+		/// </summary>
+		private string _fenceLength = string.Empty;
+
+		/// <summary>
+		/// Глубина погружения.
+		/// </summary>
+		private string _immersionDepth = string.Empty;
+
+		/// <summary>
+		/// Высота верхней части.
+		/// </summary>
+		private string _topFenceHeight = string.Empty;
+
 		#endregion
 
 		#region -- Properties --
@@ -45,7 +75,7 @@ namespace FenceBuildingVm
 				const string propertyName = nameof(ColumnWidth);
 				if (CanChangeValue(value, propertyName, out var doubleValue))
 				{
-					_fenceParameters.TopFenceHeight = doubleValue;
+					_fenceParameters.ColumnWidth = doubleValue;
 					RaisePropertyChanged(propertyName);
 				}
 
@@ -58,16 +88,16 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string DistanceLowerBaffles
 		{
-			get => _fenceParameters.DistanceLowerBaffles.ToString();
+			get => _distanceLowerBaffles;
 			set
 			{
 				const string propertyName = nameof(DistanceLowerBaffles);
 				if (CanChangeValue(value, propertyName, out var doubleValue))
 				{
-					_fenceParameters.TopFenceHeight = doubleValue;
-					RaisePropertyChanged(propertyName);
+					_fenceParameters.DistanceLowerBaffles = doubleValue;
 				}
 
+				Set(ref _distanceLowerBaffles, value);
 				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
@@ -77,16 +107,16 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string DistanceUpperBaffles
 		{
-			get => _fenceParameters.DistanceUpperBaffles.ToString();
+			get => _distanceUpperBaffles;
 			set
 			{
 				const string propertyName = nameof(DistanceUpperBaffles);
 				if (CanChangeValue(value, propertyName, out var doubleValue))
 				{
-					_fenceParameters.TopFenceHeight = doubleValue;
-					RaisePropertyChanged(propertyName);
+					_fenceParameters.DistanceUpperBaffles = doubleValue;
 				}
 
+				Set(ref _distanceUpperBaffles, value);
 				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
@@ -96,16 +126,16 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string FenceLength
 		{
-			get => _fenceParameters.FenceLength.ToString();
+			get => _fenceLength;
 			set
 			{
 				const string propertyName = nameof(FenceLength);
 				if (CanChangeValue(value, propertyName, out var doubleValue))
 				{
-					_fenceParameters.TopFenceHeight = doubleValue;
-					RaisePropertyChanged(propertyName);
+					_fenceParameters.FenceLength = doubleValue;
 				}
 
+				Set(ref _fenceLength, value);
 				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
@@ -115,16 +145,16 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string ImmersionDepth
 		{
-			get => _fenceParameters.ImmersionDepth.ToString();
+			get => _immersionDepth;
 			set
 			{
 				const string propertyName = nameof(ImmersionDepth);
 				if (CanChangeValue(value, propertyName, out var doubleValue))
 				{
-					_fenceParameters.TopFenceHeight = doubleValue;
-					RaisePropertyChanged(propertyName); 
+					_fenceParameters.ImmersionDepth = doubleValue;
 				}
 
+				Set(ref _immersionDepth, value);
 				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
@@ -134,7 +164,7 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string TopFenceHeight
 		{
-			get => _fenceParameters.TopFenceHeight.ToString();
+			get => _topFenceHeight;
 			set
 			{
 				const string propertyName = nameof(TopFenceHeight);
@@ -144,6 +174,7 @@ namespace FenceBuildingVm
 					RaisePropertyChanged(propertyName);
 				}
 
+				Set(ref _topFenceHeight, value);
 				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
@@ -182,11 +213,25 @@ namespace FenceBuildingVm
 			_messageBoxService = messageBoxService;
 			_fenceParameters = new FenceParameters();
 			BuildCommand = new RelayCommand(BuildFence);
+			SetValues();
 		}
 
 		#endregion
 
 		#region -- Private Methods --
+
+		/// <summary>
+		/// Устанавливает значения из <see cref="FenceParameters"/>
+		/// </summary>
+		private void SetValues()
+		{
+			ColumnWidth = _fenceParameters.ColumnWidth.ToString();
+			DistanceLowerBaffles = _fenceParameters.DistanceLowerBaffles.ToString();
+			DistanceUpperBaffles = _fenceParameters.DistanceUpperBaffles.ToString();
+			FenceLength = _fenceParameters.FenceLength.ToString();
+			ImmersionDepth = _fenceParameters.ImmersionDepth.ToString();
+			TopFenceHeight = _fenceParameters.TopFenceHeight.ToString();
+		}
 
 		/// <summary>
 		/// Пробует спарсить значение.
