@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System;
+using Core;
 using NUnit.Framework;
 
 namespace TestCore
@@ -13,83 +14,6 @@ namespace TestCore
 		/// Возвращает новый экземпляр класса <see cref="Core.FenceParameters"/>.
 		/// </summary>
 		private FenceParameters FenceParameters => new FenceParameters();
-
-		#region -- Test Property Errors --
-
-		[Test(Description = "Проверка корректного возвращения свойства Error.")]
-		public void TestErrors_CorrectGet()
-		{
-			var fenceParameters = FenceParameters;
-
-			var expected = true;
-
-			var actual = fenceParameters.Errors != null;
-
-			Assert.AreEqual(expected, actual, $"Свойство {nameof(fenceParameters.Errors)} не создано и равно null.");
-		}
-
-		#endregion
-
-		#region -- Test INotifyDataErrorInfo --
-
-		[Test(Description = "Проверка корректного получения ошибки через метод GetErrors.")]
-		public void TestGetErrors_CorrectGetValue()
-		{
-			var fenceParameters = FenceParameters;
-			var key = "TestKey";
-			var value = "TestValue";
-			fenceParameters.Errors.Add(key, value);
-
-			var expected = value;
-
-			var actual = fenceParameters.GetErrors(key).ToString();
-
-			Assert.AreEqual(expected, actual, "Вернулась неверное описание ошибки.");
-		}
-
-		[Test(Description = "Проверка получения пустой строки ошибки через метод GetErrors.")]
-		public void TestGetErrors_GetNull()
-		{
-			var fenceParameters = FenceParameters;
-			var key = "TestKey";
-
-			var expected = string.Empty;
-
-			var actual = fenceParameters.GetErrors(key).ToString();
-
-			Assert.AreEqual(expected, actual, $"Вернулось сообщение об ошибки: {actual}");
-		}
-
-		[Test(Description = "Проверка получения значения True при вызове свойства HasErrors.")]
-		public void TestHasErrors_GetTrue()
-		{
-			var fenceParameters = FenceParameters;
-			var key = "TestKey";
-			var value = "TestValue";
-			fenceParameters.Errors.Add(key, value);
-
-			var expected = true;
-
-			var actual = fenceParameters.HasErrors;
-
-			Assert.AreEqual(expected, actual,
-				$"Свойство {nameof(fenceParameters.HasErrors)} показало, что нет ошибок.");
-		}
-
-		[Test(Description = "Проверка получения значения False при вызове свойства HasErrors.")]
-		public void TestHasErrors_GetFalse()
-		{
-			var fenceParameters = FenceParameters;
-
-			var expected = false;
-
-			var actual = fenceParameters.HasErrors;
-
-			Assert.AreEqual(expected, actual,
-				$"Свойство {nameof(fenceParameters.HasErrors)} показало, что есть ошибок.");
-		}
-
-		#endregion
 
 		#region -- Test ColumnWidth --
 
@@ -123,14 +47,7 @@ namespace TestCore
 		public void TestColumnWidth_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-
-			var expected = fenceParameters.ColumnWidth;
-
-			fenceParameters.ColumnWidth = value;
-
-			var actual = fenceParameters.ColumnWidth;
-
-			Assert.AreEqual(expected, actual,
+			Assert.Throws<ArgumentException>(()=> fenceParameters.ColumnWidth = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -168,14 +85,7 @@ namespace TestCore
 		public void TestDistanceLowerBaffles_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-
-			var expected = fenceParameters.DistanceLowerBaffles;
-
-			fenceParameters.DistanceLowerBaffles = value;
-
-			var actual = fenceParameters.DistanceLowerBaffles;
-
-			Assert.AreEqual(expected, actual,
+			Assert.Throws<ArgumentException>(() => fenceParameters.DistanceLowerBaffles = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -213,14 +123,7 @@ namespace TestCore
 		public void TestDistanceUpperBaffles_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-
-			var expected = fenceParameters.DistanceLowerBaffles;
-
-			fenceParameters.DistanceLowerBaffles = value;
-
-			var actual = fenceParameters.DistanceLowerBaffles;
-
-			Assert.AreEqual(expected, actual,
+			Assert.Throws<ArgumentException>(() => fenceParameters.DistanceLowerBaffles = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -247,7 +150,7 @@ namespace TestCore
 		public void TestFenceLength_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
-			var value = 10.0;
+			var value = 1500.0;
 
 			Assert.DoesNotThrow(() => fenceParameters.FenceLength = value,
 				"Не удалось присвоить корректное значение.");
@@ -258,14 +161,7 @@ namespace TestCore
 		public void TestFenceLength_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-
-			var expected = fenceParameters.FenceLength;
-
-			fenceParameters.FenceLength = value;
-
-			var actual = fenceParameters.FenceLength;
-
-			Assert.AreEqual(expected, actual,
+			Assert.Throws<ArgumentException>(() => fenceParameters.FenceLength = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -292,7 +188,7 @@ namespace TestCore
 		public void TestImmersionDepth_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
-			var value = 10.0;
+			var value = 500.0;
 
 			Assert.DoesNotThrow(() => fenceParameters.ImmersionDepth = value,
 				"Не удалось присвоить корректное значение.");
@@ -303,14 +199,7 @@ namespace TestCore
 		public void TestImmersionDepth_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-
-			var expected = fenceParameters.ImmersionDepth;
-
-			fenceParameters.ImmersionDepth = value;
-
-			var actual = fenceParameters.ImmersionDepth;
-
-			Assert.AreEqual(expected, actual,
+			Assert.Throws<ArgumentException>(() => fenceParameters.ImmersionDepth = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -337,7 +226,7 @@ namespace TestCore
 		public void TestTopFenceHeight_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
-			var value = 10.0;
+			var value = 1000.0;
 
 			Assert.DoesNotThrow(() => fenceParameters.TopFenceHeight = value,
 				"Не удалось присвоить корректное значение.");
@@ -348,14 +237,7 @@ namespace TestCore
 		public void TestTopFenceHeight_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-
-			var expected = fenceParameters.TopFenceHeight;
-
-			fenceParameters.TopFenceHeight = value;
-
-			var actual = fenceParameters.TopFenceHeight;
-
-			Assert.AreEqual(expected, actual,
+			Assert.Throws<ArgumentException>(() => fenceParameters.TopFenceHeight = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -380,60 +262,15 @@ namespace TestCore
 
 		#endregion
 
-		#region -- Test SetValue --
-
-		[Test(Description = "Повторное присвоение некорректного значения.")]
-		public void TestSetValue_DoubleIncorrectSet()
-		{
-			var fenceParameters = FenceParameters;
-			var value = 100.0;
-			fenceParameters.ColumnWidth = value;
-			fenceParameters.ColumnWidth = value;
-
-			var expected = true;
-
-			var errorMessage = fenceParameters.GetErrors(nameof(fenceParameters.ColumnWidth)).ToString();
-
-			var actual = !string.IsNullOrEmpty(errorMessage);
-
-			Assert.AreEqual(expected, actual, "При повторном присвоение некорректного значения значение было присвоено.");
-		}
-
-		[Test(Description = "Проверка исправления значения на корректное.")]
-		public void TestSetValue_DoubleCorrectSet()
-		{
-			var fenceParameters = FenceParameters;
-			fenceParameters.ColumnWidth = 100.0;
-
-			fenceParameters.ColumnWidth = 40.0;
-
-			var expected = string.Empty;
-
-			var errorMessage = fenceParameters.GetErrors(nameof(fenceParameters.ColumnWidth)).ToString();
-
-			var actual = errorMessage;
-
-			Assert.AreEqual(expected, actual, "При повторном присвоение некорректного значения значение было присвоено.");
-		}
-
-		#endregion
-
 		#region -- Test CheckFenceHeight --
 
-		[Test(Description = "Сравнение значения суммарной высоты с общей высотой забора.")]
-		public void TestCheckFenceHeight_CorrectHeight()
+		[Test(Description = "Сравнение значения суммарной высоты с общей разрешенной высотой забора. Должно выкинуться исключение.")]
+		public void TestCheckFenceHeight_InCorrectHeight()
 		{
 			var fenceParameters = FenceParameters;
-			fenceParameters.TopFenceHeight = 1000.0;
-			fenceParameters.ImmersionDepth = 400.0;
-
-			var expected = string.Empty;
-
-			var errorMessage = fenceParameters.GetErrors(nameof(fenceParameters.TopFenceHeight)).ToString();
-
-			var actual = errorMessage;
-
-			Assert.AreEqual(expected, actual, "Значение суммарной высоты не входит диапазон общей высоты забора.");
+			fenceParameters.TopFenceHeight = 1500.0;
+			Assert.Throws<ArgumentException>(() => fenceParameters.ImmersionDepth = 750.0,
+				"Значение суммарной высоты входит диапазон общей высоты забора.");
 		}
 
 		#endregion

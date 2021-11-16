@@ -11,7 +11,7 @@ namespace Core
 	/// <summary>
 	/// Класс параметров забора.
 	/// </summary>
-	public class FenceParameters : ViewModelBase, INotifyDataErrorInfo
+	public class FenceParameters
 	{
 		#region -- Constants --
 
@@ -62,11 +62,6 @@ namespace Core
 		#endregion
 
 		#region -- Properties --
-
-		/// <summary>
-		/// Возвращает словарь ошибок.
-		/// </summary>
-		public Dictionary<string, string> Errors { get; } = new Dictionary<string, string>();
 
 		/// <summary>
 		/// Возвращает и задает значение ширины столбика.
@@ -195,22 +190,10 @@ namespace Core
 		{
 			if (!Validator.Validate(value, minValue, maxValue))
 			{
-				if (!Errors.ContainsKey(propertyName))
-				{
-					Errors.Add(propertyName,
-						$": значение не входит диапазон {minValue} — {maxValue}");
-					return;
-				}
+				throw new ArgumentException($"значение не входит диапазон {minValue} — {maxValue}");
 			}
-			else
-			{
-				if (Errors.ContainsKey(propertyName))
-				{
-					Errors.Remove(propertyName);
-				}
-			}
-
-			Set(ref field, value);
+			
+			field = value;
 		}
 
 		/// <summary>
@@ -220,37 +203,13 @@ namespace Core
 		{
 			var currentHeight = ImmersionDepth + TopFenceHeight;
 			const string key = nameof(TopFenceHeight) + nameof(ImmersionDepth);
-			if (currentHeight >= MinHeight && currentHeight <= MaxHeight)
+			if (currentHeight >= MinHeight && currentHeight <= MaxHeight || double.IsNaN(currentHeight))
 			{
-				if (Errors.ContainsKey(key))
-				{
-					Errors.Remove(key);
-				}
-
 				return;
 			}
 
-			var errorMessage = $": сумма значений не входит диапазон {MinHeight} — {MaxHeight}";
-			if (!Errors.ContainsKey(key))
-			{
-				Errors.Add(key, errorMessage);
-			}
-		}
-
-		#endregion
-
-		#region -- INotifyDataErrorInfo --
-
-		/// <inheritdoc/>
-		public bool HasErrors => Errors.Any();
-
-		/// <inheritdoc/>
-		public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-		/// <inheritdoc/>
-		public IEnumerable GetErrors(string propertyName)
-		{
-			return Errors.ContainsKey(propertyName) ? Errors[propertyName] : string.Empty;
+			var errorMessage = $"сумма значений не входит диапазон {MinHeight} — {MaxHeight}";
+			throw new ArgumentException(errorMessage);
 		}
 
 		#endregion

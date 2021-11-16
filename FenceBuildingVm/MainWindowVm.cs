@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using Core;
@@ -11,9 +13,14 @@ namespace FenceBuildingVm
 {
 	// Background="#eaa" цвет для ошибки.
 
-	public class MainWindowVm : ViewModelBase
+	public class MainWindowVm : ViewModelBase, INotifyDataErrorInfo
 	{
 		#region -- Fields --
+
+		/// <summary>
+		/// Возвращает словарь ошибок.
+		/// </summary>
+		private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
 
 		/// <summary>
 		/// Параметры забора.
@@ -69,7 +76,7 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string ColumnWidth
 		{
-			get => _fenceParameters.ColumnWidth.ToString();
+			get => _columnWidth;
 			set
 			{
 				const string propertyName = nameof(ColumnWidth);
@@ -79,6 +86,7 @@ namespace FenceBuildingVm
 					RaisePropertyChanged(propertyName);
 				}
 
+				Set(ref _columnWidth, value);
 				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
@@ -195,6 +203,22 @@ namespace FenceBuildingVm
 
 		#endregion
 
+		#region -- INotifyDataErrorInfo --
+
+		/// <inheritdoc/>
+		public bool HasErrors => _errors.Any();
+
+		/// <inheritdoc/>
+		public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+		/// <inheritdoc/>
+		public IEnumerable GetErrors(string propertyName)
+		{
+			return _errors.ContainsKey(propertyName) ? _errors[propertyName] : string.Empty;
+		}
+
+		#endregion
+
 		#region -- Constructors --
 
 		public MainWindowVm(IMessageBoxService messageBoxService)
@@ -244,7 +268,7 @@ namespace FenceBuildingVm
 		{
 			if (!double.TryParse(value, out doubleValue))
 			{
-				_fenceParameters.Errors.Add(nameProperty,
+				_errors.Add(nameProperty,
 					": введенное значение не является вещественным числом.");
 				return false;
 			}
@@ -261,11 +285,11 @@ namespace FenceBuildingVm
 			//return _fenceParameters.Errors.Keys.Aggregate(string.Empty,
 			//	(current, key) => current + (_russianFields[key] + _fenceParameters.Errors[key]) + '\n');
 			var errorMessage = string.Empty;
-			for (var i = 0; i < _fenceParameters.Errors.Keys.Count; i++)
+			for (var i = 0; i < _errors.Keys.Count; i++)
 			{
-				var key = _fenceParameters.Errors.Keys.ToArray()[i];
-				errorMessage += _russianFields[key] + _fenceParameters.Errors[key];
-				if (i != _fenceParameters.Errors.Keys.Count - 1)
+				var key = _errors.Keys.ToArray()[i];
+				errorMessage += _russianFields[key] + _errors[key];
+				if (i != _errors.Keys.Count - 1)
 				{
 					errorMessage += '\n';
 				}
@@ -279,7 +303,7 @@ namespace FenceBuildingVm
 		/// </summary>
 		private void BuildFence()
 		{
-			if (_fenceParameters.HasErrors)
+			if (HasErrors)
 			{
 				_messageBoxService.Show("Не все ошибки исправлены!", "Ошибка!", MessageType.Error);
 				return;
@@ -294,6 +318,45 @@ namespace FenceBuildingVm
 			{
 				_messageBoxService.Show(e.Message, "Ошибка!", MessageType.Error);
 			}
+		}
+
+
+		/// <summary>
+		/// Добавить ошибку.
+		/// </summary>
+		/// <param name="propertyName">Имя свойства.</param>
+		/// <param name="errorMessage">Сообщение об ошибке.</param>
+		private void AddError(string propertyName, string errorMessage)
+		{
+			if (!_errors.ContainsKey(propertyName))
+			{
+				_errors.Add(propertyName, errorMessage);
+			}
+			else
+			{
+				_errors[propertyName] = errorMessage;
+			}
+
+			OnErrorsChanged(propertyName);
+		}
+
+		/// <summary>
+		/// Удаление ошибки.
+		/// </summary>
+		/// <param name="propertyName">Имя свойства.</param>
+		private void ClearErrors(string propertyName)
+		{
+			_errors.Remove(propertyName);
+			OnErrorsChanged(propertyName);
+		}
+
+		/// <summary>
+		/// Вызов события изменения ошибки.
+		/// </summary>
+		/// <param name="propertyName">Имя свойства.</param>
+		private void OnErrorsChanged(string propertyName)
+		{
+			ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 		}
 
 		#endregion
