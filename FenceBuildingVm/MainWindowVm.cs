@@ -258,8 +258,20 @@ namespace FenceBuildingVm
 		/// <returns>Строку с ошибками.</returns>
 		private string GetAllErrors()
 		{
-			return _fenceParameters.Errors.Keys.Aggregate(string.Empty,
-				(current, key) => current + (_russianFields[key] + _fenceParameters.Errors[key]));
+			//return _fenceParameters.Errors.Keys.Aggregate(string.Empty,
+			//	(current, key) => current + (_russianFields[key] + _fenceParameters.Errors[key]) + '\n');
+			var errorMessage = string.Empty;
+			for (var i = 0; i < _fenceParameters.Errors.Keys.Count; i++)
+			{
+				var key = _fenceParameters.Errors.Keys.ToArray()[i];
+				errorMessage += _russianFields[key] + _fenceParameters.Errors[key];
+				if (i != _fenceParameters.Errors.Keys.Count - 1)
+				{
+					errorMessage += '\n';
+				}
+			}
+
+			return errorMessage;
 		}
 
 		/// <summary>
