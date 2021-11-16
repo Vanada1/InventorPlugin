@@ -11,8 +11,6 @@ using InventorApi;
 
 namespace FenceBuildingVm
 {
-	// Background="#eaa" цвет для ошибки.
-
 	public class MainWindowVm : ViewModelBase, INotifyDataErrorInfo
 	{
 		#region -- Fields --
