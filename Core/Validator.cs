@@ -1,7 +1,7 @@
 ﻿namespace Core
 {
 	/// <summary>
-	/// Класс для валидирования чисел.
+	/// Класс для валидации чисел.
 	/// </summary>
 	public static class Validator
 	{

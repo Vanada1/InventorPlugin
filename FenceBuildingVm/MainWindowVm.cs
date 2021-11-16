@@ -11,6 +11,9 @@ using InventorApi;
 
 namespace FenceBuildingVm
 {
+	/// <summary>
+	/// ViewModel главного окна.
+	/// </summary>
 	public class MainWindowVm : ViewModelBase, INotifyDataErrorInfo
 	{
 		#region -- Fields --
@@ -205,7 +208,7 @@ namespace FenceBuildingVm
 		#region -- Private Methods --
 
 		/// <summary>
-		/// Устанавливает значения из <see cref="FenceParameters"/>
+		/// Устанавливает значения из <see cref="FenceParameters"/>.
 		/// </summary>
 		private void SetValues()
 		{
@@ -304,8 +307,6 @@ namespace FenceBuildingVm
 		/// <returns>Строку с ошибками.</returns>
 		private string GetAllErrors()
 		{
-			//return _fenceParameters.Errors.Keys.Aggregate(string.Empty,
-			//	(current, key) => current + (_russianFields[key] + _fenceParameters.Errors[key]) + '\n');
 			var errorMessage = string.Empty;
 			for (var i = 0; i < _errors.Keys.Count; i++)
 			{
@@ -341,7 +342,6 @@ namespace FenceBuildingVm
 				_messageBoxService.Show(e.Message, "Ошибка!", MessageType.Error);
 			}
 		}
-
 
 		/// <summary>
 		/// Добавить ошибку.

@@ -123,7 +123,7 @@ namespace InventorApi
 		}
 
 		/// <summary>
-		/// Создание объекта коллекции
+		/// Создание объекта коллекции.
 		/// </summary>
 		/// <returns></returns>
 		public ObjectCollection CreateObjectCollection()
