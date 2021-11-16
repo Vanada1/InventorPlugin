@@ -59,6 +59,7 @@
     <Compile Include="IMessageBoxService.cs" />
     <Compile Include="MainWindowVm.cs" />
     <Compile Include="MessageType.cs" />
+    <Compile Include="Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

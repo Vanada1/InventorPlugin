@@ -79,15 +79,8 @@ namespace FenceBuildingVm
 			get => _columnWidth;
 			set
 			{
-				const string propertyName = nameof(ColumnWidth);
-				if (CanChangeValue(value, propertyName, out var doubleValue))
-				{
-					_fenceParameters.ColumnWidth = doubleValue;
-					RaisePropertyChanged(propertyName);
-				}
-
+				Set(Parameters.ColumnWidth, value);
 				Set(ref _columnWidth, value);
-				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -99,14 +92,8 @@ namespace FenceBuildingVm
 			get => _distanceLowerBaffles;
 			set
 			{
-				const string propertyName = nameof(DistanceLowerBaffles);
-				if (CanChangeValue(value, propertyName, out var doubleValue))
-				{
-					_fenceParameters.DistanceLowerBaffles = doubleValue;
-				}
-
+				Set(Parameters.DistanceLowerBaffles, value);
 				Set(ref _distanceLowerBaffles, value);
-				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -118,14 +105,8 @@ namespace FenceBuildingVm
 			get => _distanceUpperBaffles;
 			set
 			{
-				const string propertyName = nameof(DistanceUpperBaffles);
-				if (CanChangeValue(value, propertyName, out var doubleValue))
-				{
-					_fenceParameters.DistanceUpperBaffles = doubleValue;
-				}
-
+				Set(Parameters.DistanceUpperBaffles, value);
 				Set(ref _distanceUpperBaffles, value);
-				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -137,14 +118,8 @@ namespace FenceBuildingVm
 			get => _fenceLength;
 			set
 			{
-				const string propertyName = nameof(FenceLength);
-				if (CanChangeValue(value, propertyName, out var doubleValue))
-				{
-					_fenceParameters.FenceLength = doubleValue;
-				}
-
+				Set(Parameters.FenceLength, value);
 				Set(ref _fenceLength, value);
-				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -156,14 +131,8 @@ namespace FenceBuildingVm
 			get => _immersionDepth;
 			set
 			{
-				const string propertyName = nameof(ImmersionDepth);
-				if (CanChangeValue(value, propertyName, out var doubleValue))
-				{
-					_fenceParameters.ImmersionDepth = doubleValue;
-				}
-
+				Set(Parameters.ImmersionDepth, value);
 				Set(ref _immersionDepth, value);
-				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -175,15 +144,8 @@ namespace FenceBuildingVm
 			get => _topFenceHeight;
 			set
 			{
-				const string propertyName = nameof(TopFenceHeight);
-				if (CanChangeValue(value, propertyName, out var doubleValue))
-				{
-					_fenceParameters.TopFenceHeight = doubleValue;
-					RaisePropertyChanged(propertyName);
-				}
-
+				Set(Parameters.TopFenceHeight, value);
 				Set(ref _topFenceHeight, value);
-				RaisePropertyChanged(nameof(ErrorText));
 			}
 		}
 
@@ -258,6 +220,67 @@ namespace FenceBuildingVm
 		}
 
 		/// <summary>
+		/// Установить значение параметра объекту <see cref="FenceParameters"/>.
+		/// </summary>
+		/// <param name="parameter">Параметр для присвоения значения.</param>
+		/// <param name="value">Значение в строковом виде.</param>
+		private void Set(Parameters parameter, string value)
+		{
+			var propertyName = parameter.ToString();
+			if (!CanChangeValue(value, propertyName, out var doubleValue))
+			{
+				return;
+			}
+
+			try
+			{
+				switch (parameter)
+				{
+					case Parameters.ColumnWidth:
+					{
+						_fenceParameters.ColumnWidth = doubleValue;
+						break;
+					}
+					case Parameters.DistanceLowerBaffles:
+					{
+						_fenceParameters.DistanceLowerBaffles = doubleValue;
+						break;
+					}
+					case Parameters.DistanceUpperBaffles:
+					{
+						_fenceParameters.DistanceUpperBaffles = doubleValue;
+						break;
+					}
+					case Parameters.FenceLength:
+					{
+						_fenceParameters.FenceLength = doubleValue;
+						break;
+					}
+					case Parameters.ImmersionDepth:
+					{
+						_fenceParameters.ImmersionDepth = doubleValue;
+						break;
+					}
+					case Parameters.TopFenceHeight:
+					{
+						_fenceParameters.TopFenceHeight = doubleValue;
+						break;
+					}
+					default:
+					{
+						throw new ArgumentOutOfRangeException(nameof(parameter), parameter, null);
+					}
+				}
+
+				ClearErrors(propertyName);
+			}
+			catch (ArgumentException e)
+			{
+				AddError(propertyName, e.Message);
+			}
+		}
+
+		/// <summary>
 		/// Пробует спарсить значение.
 		/// </summary>
 		/// <param name="value">Строковое значение.</param>
@@ -266,14 +289,15 @@ namespace FenceBuildingVm
 		/// <returns>True, если получилось спарсить.</returns>
 		private bool CanChangeValue(string value, string nameProperty, out double doubleValue)
 		{
-			if (!double.TryParse(value, out doubleValue))
+			if (double.TryParse(value, out doubleValue))
 			{
-				_errors.Add(nameProperty,
-					": введенное значение не является вещественным числом.");
-				return false;
+				return true;
 			}
 
-			return true;
+			AddError(nameProperty,
+				"введенное значение не является вещественным числом.");
+			return false;
+
 		}
 
 		/// <summary>
@@ -288,7 +312,7 @@ namespace FenceBuildingVm
 			for (var i = 0; i < _errors.Keys.Count; i++)
 			{
 				var key = _errors.Keys.ToArray()[i];
-				errorMessage += _russianFields[key] + _errors[key];
+				errorMessage += _russianFields[key] + ": " + _errors[key];
 				if (i != _errors.Keys.Count - 1)
 				{
 					errorMessage += '\n';
@@ -357,6 +381,7 @@ namespace FenceBuildingVm
 		private void OnErrorsChanged(string propertyName)
 		{
 			ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+			RaisePropertyChanged(nameof(ErrorText));
 		}
 
 		#endregion
