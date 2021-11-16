@@ -5,12 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:fenceBuildingVm="clr-namespace:FenceBuildingVm;assembly=FenceBuildingVm"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="clr-namespace:FenceBuildingUI.Converters"
     Title="Забор"
     Width="600"
     Height="450"
     d:DataContext="{d:DesignInstance fenceBuildingVm:MainWindowVm}"
     ResizeMode="NoResize"
     mc:Ignorable="d">
+    <Window.Resources>
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -147,6 +151,7 @@
             Grid.ColumnSpan="2"
             Padding="5"
             Background="LightBlue"
+            Visibility="{Binding HasErrors, Converter={StaticResource VisibilityConverter}}"
             Text="{Binding ErrorText}">
         </TextBlock>
     </Grid>

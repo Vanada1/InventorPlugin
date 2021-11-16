@@ -382,6 +382,7 @@ namespace FenceBuildingVm
 		{
 			ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 			RaisePropertyChanged(nameof(ErrorText));
+			RaisePropertyChanged(nameof(HasErrors));
 		}
 
 		#endregion
