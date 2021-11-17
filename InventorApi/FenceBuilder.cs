@@ -28,7 +28,8 @@ namespace InventorApi
 		/// <summary>
 		/// Координата средней палки.
 		/// </summary>
-		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight + _fenceParameters.ImmersionDepth;
+		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight 
+                                       + _fenceParameters.ImmersionDepth;
 
 		#endregion
 

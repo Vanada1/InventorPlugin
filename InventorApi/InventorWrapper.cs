@@ -91,11 +91,12 @@ namespace InventorApi
 			return sketch;
 		}
 
-		/// <summary>
-		/// Выдавливание.
-		/// </summary>
-		/// <param name="sketch">Эскиз.</param>
-		public void Extrude(PlanarSketch sketch, double distance)
+        /// <summary>
+        /// Выдавливание.
+        /// </summary>
+        /// <param name="sketch">Эскиз.</param>
+        /// <param name="distance">//TODO:</param>
+        public void Extrude(PlanarSketch sketch, double distance)
 		{
 			sketch.Visible = false;
 			var sketchProfile = sketch.Profiles.AddForSolid();

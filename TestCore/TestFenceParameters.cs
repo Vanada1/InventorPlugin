@@ -17,7 +17,7 @@ namespace TestCore
 
 		#region -- Test ColumnWidth --
 
-		[Test(Description = "Проверка корректного получения значения свойства ColumnWidth.")]
+		[TestCase(TestName = "Проверка корректного получения значения свойства ColumnWidth.")]
 		public void TestColumnWidth_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;

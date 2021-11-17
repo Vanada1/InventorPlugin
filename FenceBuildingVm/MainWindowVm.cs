@@ -332,9 +332,9 @@ namespace FenceBuildingVm
 				return;
 			}
 
-			var fenceBuilder = new FenceBuilder(_fenceParameters);
-			try
+            try
 			{
+                var fenceBuilder = new FenceBuilder(_fenceParameters);
 				fenceBuilder.BuildFence();
 			}
 			catch (ApplicationException e)
