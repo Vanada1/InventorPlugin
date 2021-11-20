@@ -15,9 +15,6 @@ namespace FenceBuildingUI
 		public MainWindow()
 		{
 			InitializeComponent();
-			var mainWindowVm = new MainWindowVm(new MessageBoxService(),
-				new FenceBuilder());
-			DataContext = mainWindowVm;
 		}
 	}
 }
