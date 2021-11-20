@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using GalaSoft.MvvmLight;
 
 namespace Core
 {
@@ -131,8 +130,10 @@ namespace Core
 			get => _immersionDepth;
 			set
 			{
-				var minValue = (int)(double.IsNaN(TopFenceHeight) ? MinHeight : TopFenceHeight) / 3 + 1;
-				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight : TopFenceHeight) * 0.5;
+				var minValue = (int)(double.IsNaN(TopFenceHeight) ? MinHeight : 
+					TopFenceHeight) / 3 + 1;
+				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight :
+					TopFenceHeight) * 0.5;
 				SetValue(ref _immersionDepth, value, minValue,
 					maxValue, nameof(ImmersionDepth));
 				CheckFenceHeight();
@@ -147,8 +148,10 @@ namespace Core
 			get => _topFenceHeight;
 			set
 			{
-				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 : ImmersionDepth) * 2;
-				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : ImmersionDepth) * 3;
+				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 :
+					ImmersionDepth) * 2;
+				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : 
+					ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
 					maxValue, nameof(TopFenceHeight));
 				CheckFenceHeight();
@@ -164,6 +167,9 @@ namespace Core
 
 		#region -- Constructors --
 
+		/// <summary>
+		/// Конструктор.
+		/// </summary>
 		public FenceParameters()
 		{
 			FenceLength = 2000.0;
@@ -186,7 +192,8 @@ namespace Core
 		/// <param name="minValue">Минимально возможное значение.</param>
 		/// <param name="maxValue">Максимально возможное значение.</param>
 		/// <param name="propertyName">Имя свойства.</param>
-		private void SetValue(ref double field, double value, double minValue, double maxValue, string propertyName)
+		private void SetValue(ref double field, double value, double minValue,
+			double maxValue, string propertyName)
 		{
 			if (!Validator.Validate(value, minValue, maxValue))
 			{

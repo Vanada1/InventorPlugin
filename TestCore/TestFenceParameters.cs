@@ -243,7 +243,6 @@ namespace TestCore
 
 		#endregion
 
-
 		#region -- Test FenceHeight --
 
 		[Test(Description = "Проверка корректного получения значения свойства FenceHeight.")]

@@ -76,15 +76,19 @@ namespace InventorApi
 			var points = new List<Point2d>
 			{
 				_inventorWrapper.TransientGeometry.CreatePoint2d(0, 0),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth, fenceHeight),
+				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth,
+					fenceHeight),
 				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength, 0),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth, fenceHeight),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth, fenceHeight - columnWidth),
+				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth,
+					fenceHeight),
+				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth,
+					fenceHeight - columnWidth),
 				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth, immersionDepth),
 				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth,
 					immersionDepth + columnWidth),
 				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth, MiddleStickY),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth, MiddleStickY - columnWidth),
+				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth,
+					MiddleStickY - columnWidth),
 			};
 
 			var sketchXy = _inventorWrapper.MakeNewSketch(3, 0);
@@ -140,15 +144,17 @@ namespace InventorApi
 			var fenceLength = _fenceParameters.FenceLength;
 			var deltaX = columnWidth + distance;
 
-			var currentPoint1 = _inventorWrapper.TransientGeometry.CreatePoint2d(deltaX, y1);
-			var currentPoint2 = _inventorWrapper.TransientGeometry.CreatePoint2d(deltaX + columnWidth, y2);
+			var currentPoint1 = _inventorWrapper.TransientGeometry
+				.CreatePoint2d(deltaX, y1);
+			var currentPoint2 = _inventorWrapper.TransientGeometry
+				.CreatePoint2d(deltaX + columnWidth, y2);
 			var sketchXy = _inventorWrapper.MakeNewSketch(3, 0);
 			var rectangles = new List<SketchEntitiesEnumerator>();
 
 			while (fenceLength - columnWidth - currentPoint2.X > columnWidth)
 			{
 				rectangles.Add(sketchXy.SketchLines.AddAsTwoPointRectangle(currentPoint1,
-					currentPoint2));
+						currentPoint2));
 				currentPoint1 =
 					_inventorWrapper.TransientGeometry.CreatePoint2d(currentPoint2.X + distance,
 						currentPoint1.Y);

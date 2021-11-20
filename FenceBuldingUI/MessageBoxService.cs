@@ -9,11 +9,12 @@ namespace FenceBuildingUI
 	/// </summary>
 	public class MessageBoxService : IMessageBoxService
 	{
-		//TODO: Длинная строка
+		//TODO: Длинная строка(done)
 		/// <summary>
 		/// Словарь ассоциаций типа окна сообщения.
 		/// </summary>
-		private readonly Dictionary<MessageType, MessageBoxImage> _boxImages = new Dictionary<MessageType, MessageBoxImage>()
+		private readonly Dictionary<MessageType, MessageBoxImage> _boxImages =
+			new Dictionary<MessageType, MessageBoxImage>()
 		{
 			{ MessageType.Error, MessageBoxImage.Error },
 			{ MessageType.Info, MessageBoxImage.Information },

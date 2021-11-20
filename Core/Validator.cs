@@ -11,7 +11,7 @@
 		/// <param name="value">Проверяемое значение.</param>
 		/// <param name="minValue">Минимально возможное значение.</param>
 		/// <param name="maxValue">Максимально возможно значение.</param>
-		/// <returns></returns>
+		/// <returns>True, если валидация пройдена.</returns>
 		public static bool Validate(double value, double minValue, double maxValue)
 		{
 			return value >= minValue && value <= maxValue;

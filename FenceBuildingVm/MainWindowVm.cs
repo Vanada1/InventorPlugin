@@ -21,7 +21,13 @@ namespace FenceBuildingVm
 		/// <summary>
 		/// Возвращает словарь ошибок.
 		/// </summary>
-		private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
+		private readonly Dictionary<string, string> _errors =
+			new Dictionary<string, string>();
+
+		/// <summary>
+		/// Словарь присвоения значений по определенным параметрам.
+		/// </summary>
+		private readonly Dictionary<Parameters, Action<double>> _actions;
 
 		/// <summary>
 		/// Параметры забора.
@@ -184,8 +190,13 @@ namespace FenceBuildingVm
 
 		#region -- Constructors --
 
+		/// <summary>
+		/// Конструктор.
+		/// </summary>
+		/// <param name="messageBoxService">Сервисный класс диалогового окна.</param>
 		public MainWindowVm(IMessageBoxService messageBoxService)
 		{
+			_messageBoxService = messageBoxService;
 			_russianFields = new Dictionary<string, string>
 			{
 				{ nameof(ColumnWidth), "Ширина столбика" },
@@ -197,8 +208,18 @@ namespace FenceBuildingVm
 				{ nameof(TopFenceHeight) + nameof(ImmersionDepth), "Глубина погружения и Высота верхней части забора" },
 			};
 
-			_messageBoxService = messageBoxService;
 			_fenceParameters = new FenceParameters();
+
+			_actions = new Dictionary<Parameters, Action<double>>
+			{
+				{ Parameters.ColumnWidth, value => _fenceParameters.ColumnWidth = value },
+				{ Parameters.DistanceLowerBaffles, value => _fenceParameters.DistanceLowerBaffles = value },
+				{ Parameters.DistanceUpperBaffles, value => _fenceParameters.DistanceUpperBaffles = value },
+				{ Parameters.FenceLength, value => _fenceParameters.FenceLength = value },
+				{ Parameters.ImmersionDepth, value => _fenceParameters.ImmersionDepth = value },
+				{ Parameters.TopFenceHeight, value => _fenceParameters.TopFenceHeight = value },
+			};
+
 			BuildCommand = new RelayCommand(BuildFence);
 			SetValues();
 		}
@@ -235,44 +256,7 @@ namespace FenceBuildingVm
 
 			try
 			{
-				switch (parameter)
-				{
-					case Parameters.ColumnWidth:
-					{
-						_fenceParameters.ColumnWidth = doubleValue;
-						break;
-					}
-					case Parameters.DistanceLowerBaffles:
-					{
-						_fenceParameters.DistanceLowerBaffles = doubleValue;
-						break;
-					}
-					case Parameters.DistanceUpperBaffles:
-					{
-						_fenceParameters.DistanceUpperBaffles = doubleValue;
-						break;
-					}
-					case Parameters.FenceLength:
-					{
-						_fenceParameters.FenceLength = doubleValue;
-						break;
-					}
-					case Parameters.ImmersionDepth:
-					{
-						_fenceParameters.ImmersionDepth = doubleValue;
-						break;
-					}
-					case Parameters.TopFenceHeight:
-					{
-						_fenceParameters.TopFenceHeight = doubleValue;
-						break;
-					}
-					default:
-					{
-						throw new ArgumentOutOfRangeException(nameof(parameter), parameter, null);
-					}
-				}
-
+				_actions[parameter](doubleValue);
 				ClearErrors(propertyName);
 			}
 			catch (ArgumentException e)
@@ -328,7 +312,8 @@ namespace FenceBuildingVm
 		{
 			if (HasErrors)
 			{
-				_messageBoxService.Show("Не все ошибки исправлены!", "Ошибка!", MessageType.Error);
+				_messageBoxService.Show("Не все ошибки исправлены!", 
+					"Ошибка!", MessageType.Error);
 				return;
 			}
 
@@ -339,7 +324,8 @@ namespace FenceBuildingVm
 			}
 			catch (ApplicationException e)
 			{
-				_messageBoxService.Show(e.Message, "Ошибка!", MessageType.Error);
+				_messageBoxService.Show(e.Message, "Ошибка!",
+					MessageType.Error);
 			}
 		}
 
@@ -378,7 +364,8 @@ namespace FenceBuildingVm
 		/// <param name="propertyName">Имя свойства.</param>
 		private void OnErrorsChanged(string propertyName)
 		{
-			ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+			ErrorsChanged?.Invoke(this,
+				new DataErrorsChangedEventArgs(propertyName));
 			RaisePropertyChanged(nameof(ErrorText));
 			RaisePropertyChanged(nameof(HasErrors));
 		}

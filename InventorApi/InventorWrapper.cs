@@ -70,10 +70,10 @@ namespace InventorApi
 				(DocumentTypeEnum.kPartDocumentObject,
 					SystemOfMeasureEnum.kMetricSystemOfMeasure));
 
-			PartDefinition = PartDoc.ComponentDefinition; //Описание документа
-			//  AssemblyDocument assDoc = (AssemblyDocument)_invApp.ActiveDocument;
-			//_assemblyDef = assDoc.ComponentDefinition;
-			TransientGeometry = InvApp.TransientGeometry; //инициализация метода геометрии
+			// Описание документа
+			PartDefinition = PartDoc.ComponentDefinition;
+			// Инициализация метода геометрии
+			TransientGeometry = InvApp.TransientGeometry; 
 		}
 
 		/// <summary>
@@ -84,8 +84,10 @@ namespace InventorApi
 		/// <returns></returns>
 		public PlanarSketch MakeNewSketch(int n, double offset)
 		{
-			var mainPlane = PartDefinition.WorkPlanes[n];       //[1 - ZY; 2 - ZX; 3 - XY]
-			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(mainPlane, offset, false);
+			//[1 - ZY; 2 - ZX; 3 - XY]
+			var mainPlane = PartDefinition.WorkPlanes[n];       
+			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(
+				mainPlane, offset, false);
 			offsetPlane.Visible = false;
 			var sketch = PartDefinition.Sketches.Add(offsetPlane, false);
 			return sketch;
@@ -95,16 +97,18 @@ namespace InventorApi
         /// Выдавливание.
         /// </summary>
         /// <param name="sketch">Эскиз.</param>
-        /// <param name="distance">//TODO:</param>
+        /// <param name="distance">Значение, на которое происходит выдавливание.</param>
         public void Extrude(PlanarSketch sketch, double distance)
 		{
 			sketch.Visible = false;
 			var sketchProfile = sketch.Profiles.AddForSolid();
 			
 			var extrudeDef =
-				PartDefinition.Features.ExtrudeFeatures.CreateExtrudeDefinition(sketchProfile,
-					PartFeatureOperationEnum.kJoinOperation);
-			extrudeDef.SetDistanceExtent(distance, PartFeatureExtentDirectionEnum.kSymmetricExtentDirection);
+				PartDefinition.Features.ExtrudeFeatures
+					.CreateExtrudeDefinition(sketchProfile,
+						PartFeatureOperationEnum.kJoinOperation);
+			extrudeDef.SetDistanceExtent(distance,
+				PartFeatureExtentDirectionEnum.kSymmetricExtentDirection);
 			var extrude = PartDefinition.Features.ExtrudeFeatures.Add(extrudeDef);
 			var objectCollection = CreateObjectCollection();
 			objectCollection.Add(extrude);
@@ -118,7 +122,8 @@ namespace InventorApi
 		/// <returns></returns>
 		public PlanarSketch MakeNewSketch(object face, double offset)
 		{
-			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(face, offset, false);
+			var offsetPlane = PartDefinition.WorkPlanes
+				.AddByPlaneAndOffset(face, offset, false);
 			var sketch = PartDefinition.Sketches.Add(offsetPlane, false);
 			return sketch;
 		}
