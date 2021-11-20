@@ -28,10 +28,45 @@ namespace InventorApi
 		#region -- Properties --
 
 		/// <summary>
-		/// Координата средней палки.
+		/// Возвращает координату средней палки в мм.
 		/// </summary>
-		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight
-		                               + _fenceParameters.ImmersionDepth;
+		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight / 10.0
+		                               + _fenceParameters.ImmersionDepth / 10.0;
+
+		/// <summary>
+		/// Возвращает значение ширины столбика в мм.
+		/// </summary>
+		private double ColumnWidth => _fenceParameters.ColumnWidth / 10.0;
+
+		/// <summary>
+		/// Возвращает значение расстояния между нижними перегородками в мм. 
+		/// </summary>
+		private double DistanceLowerBaffles => _fenceParameters.DistanceLowerBaffles / 10.0;
+
+		/// <summary>
+		/// Возвращает значение расстояния между верхними перегородками в мм. 
+		/// </summary>
+		private double DistanceUpperBaffles => _fenceParameters.DistanceUpperBaffles / 10.0;
+
+		/// <summary>
+		/// Возвращает значение высоты забора в мм.
+		/// </summary>
+		private double FenceLength => _fenceParameters.FenceLength / 10.0;
+
+		/// <summary>
+		/// Возвращает значение глубины погружения в мм.
+		/// </summary>
+		private double ImmersionDepth => _fenceParameters.ImmersionDepth / 10.0;
+
+		/// <summary>
+		/// Возвращает значение высоты верхней части забора в мм.
+		/// </summary>
+		private double TopFenceHeight => _fenceParameters.TopFenceHeight / 10.0;
+
+		/// <summary>
+		/// Возвращает общую высоту забора в мм.
+		/// </summary>
+		public double FenceHeight => TopFenceHeight + ImmersionDepth;
 
 		#endregion
 
@@ -68,10 +103,10 @@ namespace InventorApi
 		/// </summary>
 		private void BuildCarcass()
 		{
-			var columnWidth = _fenceParameters.ColumnWidth;
-			var fenceLength = _fenceParameters.FenceLength;
-			var fenceHeight = _fenceParameters.FenceHeight;
-			var immersionDepth = _fenceParameters.ImmersionDepth;
+			var columnWidth = ColumnWidth;
+			var fenceLength = FenceLength;
+			var fenceHeight = FenceHeight;
+			var immersionDepth = ImmersionDepth;
 			var points = new List<Point2d>
 			{
 				_inventorWrapper.TransientGeometry.CreatePoint2d(0, 0),
@@ -101,7 +136,7 @@ namespace InventorApi
 				sketchXy.SketchLines.AddAsTwoPointRectangle(points[7], points[8]),
 			};
 
-			_inventorWrapper.Extrude(sketchXy, _fenceParameters.ColumnWidth);
+			_inventorWrapper.Extrude(sketchXy, ColumnWidth);
 		}
 
 		/// <summary>
@@ -109,13 +144,13 @@ namespace InventorApi
 		/// </summary>
 		private void BuildLowerInnerPart()
 		{
-			var columnWidth = _fenceParameters.ColumnWidth;
-			var fenceHeight = _fenceParameters.FenceHeight;
-			var immersionDepth = _fenceParameters.ImmersionDepth;
+			var columnWidth = ColumnWidth;
+			var fenceHeight = FenceHeight;
+			var immersionDepth = ImmersionDepth;
 			var y1 = immersionDepth + columnWidth;
 			var y2 = MiddleStickY - columnWidth;
 
-			BuildInnerPart(y1, y2, _fenceParameters.DistanceLowerBaffles);
+			BuildInnerPart(y1, y2, DistanceLowerBaffles);
 		}
 
 		/// <summary>
@@ -123,12 +158,12 @@ namespace InventorApi
 		/// </summary>
 		private void BuildUpperInnerPart()
 		{
-			var columnWidth = _fenceParameters.ColumnWidth;
-			var fenceHeight = _fenceParameters.FenceHeight;
+			var columnWidth = ColumnWidth;
+			var fenceHeight = FenceHeight;
 			var y1 = MiddleStickY;
 			var y2 = fenceHeight - columnWidth;
 
-			BuildInnerPart(y1, y2, _fenceParameters.DistanceUpperBaffles);
+			BuildInnerPart(y1, y2, DistanceUpperBaffles);
 		}
 
 		/// <summary>
@@ -139,8 +174,8 @@ namespace InventorApi
 		/// <param name="distance">Расстояние между прутьями.</param>
 		private void BuildInnerPart(double y1, double y2, double distance)
 		{
-			var columnWidth = _fenceParameters.ColumnWidth;
-			var fenceLength = _fenceParameters.FenceLength;
+			var columnWidth = ColumnWidth;
+			var fenceLength = FenceLength;
 			var deltaX = columnWidth + distance;
 
 			var currentPoint1 = _inventorWrapper.TransientGeometry
@@ -162,7 +197,7 @@ namespace InventorApi
 						currentPoint2.Y);
 			}
 
-			_inventorWrapper.Extrude(sketchXy, _fenceParameters.ColumnWidth);
+			_inventorWrapper.Extrude(sketchXy, ColumnWidth);
 		}
 
 		#endregion
