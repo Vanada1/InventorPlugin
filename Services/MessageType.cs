@@ -1,4 +1,4 @@
-﻿namespace FenceBuildingVm
+﻿namespace Services
 {
 	/// <summary>
 	/// Перечисление типа окна сообщения.

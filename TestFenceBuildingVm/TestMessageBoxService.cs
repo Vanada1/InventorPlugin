@@ -1,4 +1,5 @@
 ﻿using FenceBuildingVm;
+using Services;
 
 namespace TestFenceBuildingVm
 {

@@ -116,6 +116,10 @@
       <Project>{0ad9376d-4ba2-450e-b152-b356aa9cbebd}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{9ee396e9-8e0c-4ad1-95c3-51b5eaac1661}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

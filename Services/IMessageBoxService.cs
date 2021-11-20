@@ -1,4 +1,4 @@
-﻿namespace FenceBuildingVm
+﻿namespace Services
 {
 	/// <summary>
 	/// Сервис для вызова окна сообщения.

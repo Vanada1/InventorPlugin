@@ -105,6 +105,14 @@
       <Project>{d4a76587-7f9d-4eea-bb80-6b756a9113ec}</Project>
       <Name>FenceBuildingVm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InventorApi\InventorApi.csproj">
+      <Project>{42a5108f-769d-4355-9033-bca165e255ce}</Project>
+      <Name>InventorApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{9ee396e9-8e0c-4ad1-95c3-51b5eaac1661}</Project>
+      <Name>Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Print.png">

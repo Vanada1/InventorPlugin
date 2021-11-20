@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using FenceBuildingVm;
+using InventorApi;
 
 namespace FenceBuildingUI
 {
@@ -9,15 +10,14 @@ namespace FenceBuildingUI
 	public partial class MainWindow : Window
 	{
 		/// <summary>
-		/// VM главного окна.
+		/// Конструктор.
 		/// </summary>
-		public MainWindowVm _mainWindowVm;
-
 		public MainWindow()
 		{
 			InitializeComponent();
-			_mainWindowVm = new MainWindowVm(new MessageBoxService());
-			DataContext = _mainWindowVm;
+			var mainWindowVm = new MainWindowVm(new MessageBoxService(),
+				new FenceBuilder());
+			DataContext = mainWindowVm;
 		}
 	}
 }

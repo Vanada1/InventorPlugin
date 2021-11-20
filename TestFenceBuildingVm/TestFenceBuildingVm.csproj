@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestBuildFenceService.cs" />
     <Compile Include="TestMessageBoxService.cs" />
     <Compile Include="TestMainWindowVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,9 +80,17 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{0ad9376d-4ba2-450e-b152-b356aa9cbebd}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FenceBuildingVm\FenceBuildingVm.csproj">
       <Project>{d4a76587-7f9d-4eea-bb80-6b756a9113ec}</Project>
       <Name>FenceBuildingVm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{9ee396e9-8e0c-4ad1-95c3-51b5eaac1661}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

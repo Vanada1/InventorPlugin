@@ -7,7 +7,7 @@ using System.Windows.Input;
 using Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using InventorApi;
+using Services;
 
 namespace FenceBuildingVm
 {
@@ -38,6 +38,11 @@ namespace FenceBuildingVm
 		/// Сервис окна сообщения.
 		/// </summary>
 		private readonly IMessageBoxService _messageBoxService;
+
+		/// <summary>
+		/// Сервис создания забора.
+		/// </summary>
+		private readonly IBuildFenceService _buildFenceService;
 
 		/// <summary>
 		/// Словарь русских полей.
@@ -194,9 +199,10 @@ namespace FenceBuildingVm
 		/// Конструктор.
 		/// </summary>
 		/// <param name="messageBoxService">Сервисный класс диалогового окна.</param>
-		public MainWindowVm(IMessageBoxService messageBoxService)
+		public MainWindowVm(IMessageBoxService messageBoxService, IBuildFenceService buildFenceService)
 		{
 			_messageBoxService = messageBoxService;
+			_buildFenceService = buildFenceService;
 			_russianFields = new Dictionary<string, string>
 			{
 				{ nameof(ColumnWidth), "Ширина столбика" },
@@ -319,8 +325,7 @@ namespace FenceBuildingVm
 
             try
 			{
-                var fenceBuilder = new FenceBuilder(_fenceParameters);
-				fenceBuilder.BuildFence();
+                _buildFenceService.BuildFence(_fenceParameters);
 			}
 			catch (ApplicationException e)
 			{

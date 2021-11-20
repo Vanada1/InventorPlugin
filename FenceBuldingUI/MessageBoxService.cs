@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using FenceBuildingVm;
+using Services;
 
 namespace FenceBuildingUI
 {

@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using Core;
 using Inventor;
+using Services;
 
 namespace InventorApi
 {
 	/// <summary>
 	/// Класс для создания забора.
 	/// </summary>
-	public class FenceBuilder
+	public class FenceBuilder : IBuildFenceService
 	{
+
 		#region -- Fields --
 
 		/// <summary>
@@ -19,7 +21,7 @@ namespace InventorApi
 		/// <summary>
 		/// Параметры забора.
 		/// </summary>
-		private readonly FenceParameters _fenceParameters;
+		private FenceParameters _fenceParameters;
 
 		#endregion
 
@@ -28,8 +30,8 @@ namespace InventorApi
 		/// <summary>
 		/// Координата средней палки.
 		/// </summary>
-		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight 
-                                       + _fenceParameters.ImmersionDepth;
+		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight
+		                               + _fenceParameters.ImmersionDepth;
 
 		#endregion
 
@@ -38,10 +40,8 @@ namespace InventorApi
 		/// <summary>
 		/// Конструктор.
 		/// </summary>
-		/// <param name="fenceParameters"></param>
-		public FenceBuilder(FenceParameters fenceParameters)
+		public FenceBuilder()
 		{
-			_fenceParameters = fenceParameters;
 			_inventorWrapper = new InventorWrapper();
 		}
 
@@ -49,11 +49,10 @@ namespace InventorApi
 
 		#region -- Public Methods --
 
-		/// <summary>
-		/// Построить забор.
-		/// </summary>
-		public void BuildFence()
+		/// <inheritdoc/>
+		public void BuildFence(FenceParameters fenceParameters)
 		{
+			_fenceParameters = fenceParameters;
 			_inventorWrapper.CreateNewDocument();
 			BuildCarcass();
 			BuildLowerInnerPart();
@@ -95,11 +94,11 @@ namespace InventorApi
 
 			var rectangles = new List<SketchEntitiesEnumerator>
 			{
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[0],points[1]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[2],points[3]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[3],points[4]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[5],points[6]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[7],points[8]),
+				sketchXy.SketchLines.AddAsTwoPointRectangle(points[0], points[1]),
+				sketchXy.SketchLines.AddAsTwoPointRectangle(points[2], points[3]),
+				sketchXy.SketchLines.AddAsTwoPointRectangle(points[3], points[4]),
+				sketchXy.SketchLines.AddAsTwoPointRectangle(points[5], points[6]),
+				sketchXy.SketchLines.AddAsTwoPointRectangle(points[7], points[8]),
 			};
 
 			_inventorWrapper.Extrude(sketchXy, _fenceParameters.ColumnWidth);
@@ -154,7 +153,7 @@ namespace InventorApi
 			while (fenceLength - columnWidth - currentPoint2.X > columnWidth)
 			{
 				rectangles.Add(sketchXy.SketchLines.AddAsTwoPointRectangle(currentPoint1,
-						currentPoint2));
+					currentPoint2));
 				currentPoint1 =
 					_inventorWrapper.TransientGeometry.CreatePoint2d(currentPoint2.X + distance,
 						currentPoint1.Y);

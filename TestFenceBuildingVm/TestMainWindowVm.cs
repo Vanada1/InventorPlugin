@@ -15,7 +15,8 @@ namespace TestFenceBuildingVm
 		/// <summary>
 		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>
 		/// </summary>
-		private MainWindowVm ViewModel => new MainWindowVm(new TestMessageBoxService());
+		private MainWindowVm ViewModel => new MainWindowVm(new TestMessageBoxService(),
+			new TestBuildFenceService());
 
 		// TODO: добавить тестов для интерфейса.
 		#region -- Test INotifyDataErrorInfo --
