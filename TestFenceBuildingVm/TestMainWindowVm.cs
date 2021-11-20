@@ -13,12 +13,21 @@ namespace TestFenceBuildingVm
 	public class TestMainWindowVm
 	{
 		/// <summary>
+		/// Объект класса окна сообщения.
+		/// </summary>
+		private static TestMessageBoxService _messageBoxService = new TestMessageBoxService();
+
+		/// <summary>
+		/// Объект класса создателя забора.
+		/// </summary>
+		private static TestBuildFenceService _buildFenceService = new TestBuildFenceService();
+
+		/// <summary>
 		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>
 		/// </summary>
-		private MainWindowVm ViewModel => new MainWindowVm(new TestMessageBoxService(),
-			new TestBuildFenceService());
-
-		// TODO: добавить тестов для интерфейса.
+		private MainWindowVm ViewModel => new MainWindowVm(_messageBoxService,
+			_buildFenceService);
+		
 		#region -- Test INotifyDataErrorInfo --
 
 		[TestCase(TestName = "Проверка свойства HasErrors — " +
@@ -34,6 +43,46 @@ namespace TestFenceBuildingVm
 			},
 				"Вылетело исключение при попытке" +
 				$" получения значения свойства {nameof(viewModel.HasErrors)}");
+		}
+
+		[TestCase(TestName = "Проверка вызова события ErrorsChanged." +
+							 " Значение переменной value должно быть True.")]
+		public void TestErrorsChanged_SetValueTrue()
+		{
+			var viewModel = ViewModel;
+			var value = false;
+			viewModel.ErrorsChanged += (sender, args) => value = true;
+			viewModel.ColumnWidth = "adasdqweq";
+
+			Assert.IsTrue(value, "Событие не вызывается при изменении свойств.");
+		}
+
+		[TestCase(TestName = "Проверка метода GetErrors." +
+		                     " Должна вернуться пустая строка.")]
+		public void TestGetErrors_GetEmptyString()
+		{
+			var viewModel = ViewModel;
+
+			var expected = string.Empty;
+
+			var actual = viewModel.GetErrors(nameof(viewModel.ColumnWidth));
+
+			Assert.AreEqual(expected, actual, "Вернулась не пустая строка.");
+		}
+
+		[TestCase(TestName = "Проверка метода GetErrors." +
+		                     " Должна вернуться не пустая строка.")]
+		public void TestGetErrors_GetErrorMessage()
+		{
+			var viewModel = ViewModel;
+
+			var expected = string.Empty;
+
+			viewModel.ColumnWidth = "dasdasd";
+
+			var actual = viewModel.GetErrors(nameof(viewModel.ColumnWidth));
+
+			Assert.AreNotEqual(expected, actual, "Вернулась пустая строка.");
 		}
 
 		#endregion
@@ -332,6 +381,105 @@ namespace TestFenceBuildingVm
 
 			Assert.IsTrue(viewModel.HasErrors,
 				$"Присвоило значение не входящие в диапазон.");
+		}
+
+		#endregion
+
+		#region -- Test Private Methods --
+
+		[TestCase(TestName = "Проверка перезаписи ошибки. " +
+		                     "Должна быть новая ошибка.")]
+		public void TestAddErrors_RewritingErrors()
+		{
+			var viewModel = ViewModel;
+
+			viewModel.ColumnWidth = "adasdqweq";
+			var firstError = viewModel
+				.GetErrors(nameof(viewModel.ColumnWidth));
+
+			viewModel.ColumnWidth = "1";
+			var secondErrors = viewModel
+				.GetErrors(nameof(viewModel.ColumnWidth));
+
+			Assert.AreNotEqual(firstError, secondErrors, 
+				"Событие не вызывается при изменении свойств.");
+		}
+
+		[TestCase(TestName = "Проверка метода GetAllErrors." +
+		                     " Должна вернуться пустая строка.")]
+		public void TestGetAllErrors_GetEmptyString()
+		{
+			var viewModel = ViewModel;
+
+			var expected = string.Empty;
+
+			var actual = viewModel.ErrorText;
+
+			Assert.AreEqual(expected, actual, "Вернулась не пустая строка.");
+		}
+
+		[TestCase(TestName = "Проверка метода GetAllErrors." +
+		                     " Должна вернуться не пустая строка.")]
+		public void TestGetAllErrors_GetAllErrorMessages()
+		{
+			var viewModel = ViewModel;
+
+			var expected = string.Empty;
+
+			viewModel.ColumnWidth = "sadasda";
+			viewModel.ImmersionDepth = "-12";
+			viewModel.TopFenceHeight = "1000000000000";
+
+			var actual = viewModel.ErrorText;
+
+			Assert.AreNotEqual(expected, actual, "Вернулась пустая строка.");
+		}
+
+		[TestCase(TestName = "Проверка метода BuildFence," +
+		                     " через команду BuildCommand. " +
+		                     "Должно вызвать окно сообщения.")]
+		public void TestBuildFence_HasErrors()
+		{
+			_messageBoxService = new TestMessageBoxService();
+			var viewModel = ViewModel;
+
+			viewModel.ColumnWidth = "sadasda";
+			viewModel.ImmersionDepth = "-12";
+			viewModel.TopFenceHeight = "1000000000000";
+
+			viewModel.BuildCommand.Execute(null);
+
+			Assert.IsTrue(_messageBoxService.IsOpened, "Окно сообщения не вызвалось.");
+		}
+
+		[TestCase(TestName = "Проверка метода BuildFence," +
+		                     " через команду BuildCommand. " +
+		                     "Должен построится забор.")]
+		public void TestBuildFence_CanBuild()
+		{
+			_buildFenceService = new TestBuildFenceService();
+			var viewModel = ViewModel;
+
+			viewModel.BuildCommand.Execute(null);
+
+			Assert.IsTrue(_buildFenceService.IsBuilt, "Не удалось построить забор.");
+		}
+
+		[TestCase(TestName = "Проверка метода BuildFence," +
+		                     " через команду BuildCommand. " +
+		                     "Должно открыться окно сообщения.")]
+		public void TestBuildFence_CannotOpenCAD()
+		{
+			_messageBoxService = new TestMessageBoxService();
+			_buildFenceService = new TestBuildFenceService
+			{
+				CanOpen = false
+			};
+			var viewModel = ViewModel;
+
+			viewModel.BuildCommand.Execute(null);
+
+			Assert.IsTrue(_messageBoxService.IsOpened, "Окно сообщения не открылось.");
 		}
 
 		#endregion
