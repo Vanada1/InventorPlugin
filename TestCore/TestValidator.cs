@@ -10,7 +10,8 @@ namespace TestCore
 	[TestFixture]
 	public class TestValidator
 	{
-		[Test(Description = "Проверка валидации при корректном введенном значении.")]
+		[TestCase(TestName = "Проверка валидации " +
+		                     "при корректном введенном значении.")]
 		public void TestValidate_CorrectValue()
 		{
 			const double minValue = 10.0;
@@ -21,8 +22,10 @@ namespace TestCore
 				$"Значение {value} не входит в диапазон {minValue} — {maxValue}");
 		}
 
-		[TestCase(9.0, Description = "Проверка валидации при значении меньшим минимального.")]
-		[TestCase(110.0, Description = "Проверка валидации при значении больше максимального.")]
+		[TestCase(9.0, TestName = "Проверка валидации при" +
+		                          " значении меньшим минимального.")]
+		[TestCase(110.0, TestName = "Проверка валидации при" +
+		                            " значении больше максимального.")]
 		public void TestValidate_IncorrectValue(double value)
 		{
 			const double minValue = 10.0;
