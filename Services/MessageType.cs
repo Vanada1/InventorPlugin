@@ -5,8 +5,19 @@
 	/// </summary>
 	public enum MessageType
 	{
+		/// <summary>
+		/// Ошибка.
+		/// </summary>
 		Error,
+
+		/// <summary>
+		/// Предупреждение.
+		/// </summary>
 		Warning,
+
+		/// <summary>
+		/// Информация.
+		/// </summary>
 		Info
 	}
 }

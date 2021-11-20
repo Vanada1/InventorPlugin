@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using FenceBuildingVm;
+﻿using FenceBuildingVm;
 using NUnit.Framework;
 using Assert = NUnit.Framework.Assert;
 
@@ -23,7 +21,7 @@ namespace TestFenceBuildingVm
 		private static TestBuildFenceService _buildFenceService = new TestBuildFenceService();
 
 		/// <summary>
-		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>
+		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>.
 		/// </summary>
 		private MainWindowVm ViewModel => new MainWindowVm(_messageBoxService,
 			_buildFenceService);

@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using FenceBuildingVm;
-using InventorApi;
 
 namespace FenceBuildingUI
 {

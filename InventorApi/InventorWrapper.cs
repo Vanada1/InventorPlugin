@@ -81,10 +81,9 @@ namespace InventorApi
 		/// </summary>
 		/// <param name="n">1 - ZY; 2 - ZX; 3 - XY.</param>
 		/// <param name="offset">Расстояние от поверхности.</param>
-		/// <returns></returns>
+		/// <returns>Новый эскиз.</returns>
 		public PlanarSketch MakeNewSketch(int n, double offset)
 		{
-			//[1 - ZY; 2 - ZX; 3 - XY]
 			var mainPlane = PartDefinition.WorkPlanes[n];       
 			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(
 				mainPlane, offset, false);
@@ -102,7 +101,6 @@ namespace InventorApi
 		{
 			sketch.Visible = false;
 			var sketchProfile = sketch.Profiles.AddForSolid();
-			
 			var extrudeDef =
 				PartDefinition.Features.ExtrudeFeatures
 					.CreateExtrudeDefinition(sketchProfile,
@@ -119,7 +117,7 @@ namespace InventorApi
 		/// </summary>
 		/// <param name="face">Плоскость.</param>
 		/// <param name="offset">Расстояние от плоскости, на котором будет создана новая поверхность.</param>
-		/// <returns></returns>
+		/// <returns>Новый эскиз.</returns>
 		public PlanarSketch MakeNewSketch(object face, double offset)
 		{
 			var offsetPlane = PartDefinition.WorkPlanes
@@ -131,7 +129,7 @@ namespace InventorApi
 		/// <summary>
 		/// Создание объекта коллекции.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Коллекция объектов</returns>
 		public ObjectCollection CreateObjectCollection()
 		{
 			return InvApp.TransientObjects.CreateObjectCollection();

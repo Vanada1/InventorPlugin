@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Core
 {
@@ -73,7 +68,7 @@ namespace Core
 				const double minValue = 10.0;
 				const double maxValue = 70.0;
 				SetValue(ref _columnWidth, value, minValue,
-					maxValue, nameof(ColumnWidth));
+					maxValue);
 			}
 		}
 
@@ -88,7 +83,7 @@ namespace Core
 				var minValue = double.IsNaN(ColumnWidth) ? 10.0 : ColumnWidth;
 				var maxValue = double.IsNaN(FenceLength) ? 3000.0 : FenceLength;
 				SetValue(ref _distanceLowerBaffles, value, minValue,
-					maxValue, nameof(DistanceLowerBaffles));
+					maxValue);
 			}
 		}
 
@@ -103,7 +98,7 @@ namespace Core
 				var minValue = double.IsNaN(ColumnWidth) ? 10.0 : ColumnWidth;
 				var maxValue = double.IsNaN(FenceLength) ? 3000.0 : FenceLength;
 				SetValue(ref _distanceUpperBaffles, value, minValue,
-					maxValue, nameof(DistanceUpperBaffles));
+					maxValue);
 			}
 		}
 
@@ -118,7 +113,7 @@ namespace Core
 				const double minValue = 1000.0;
 				const double maxValue = 3000.0;
 				SetValue(ref _fenceLength, value, minValue,
-					maxValue, nameof(FenceLength));
+					maxValue);
 			}
 		}
 
@@ -135,7 +130,7 @@ namespace Core
 				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight :
 					TopFenceHeight) * 0.5;
 				SetValue(ref _immersionDepth, value, minValue,
-					maxValue, nameof(ImmersionDepth));
+					maxValue);
 				CheckFenceHeight();
 			}
 		}
@@ -153,7 +148,7 @@ namespace Core
 				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : 
 					ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
-					maxValue, nameof(TopFenceHeight));
+					maxValue);
 				CheckFenceHeight();
 			}
 		}
@@ -191,9 +186,8 @@ namespace Core
 		/// <param name="value">Значение, которое нужно записать.</param>
 		/// <param name="minValue">Минимально возможное значение.</param>
 		/// <param name="maxValue">Максимально возможное значение.</param>
-		/// <param name="propertyName">Имя свойства.</param>
 		private void SetValue(ref double field, double value, double minValue,
-			double maxValue, string propertyName)
+			double maxValue)
 		{
 			if (!Validator.Validate(value, minValue, maxValue))
 			{
@@ -209,7 +203,6 @@ namespace Core
 		private void CheckFenceHeight()
 		{
 			var currentHeight = ImmersionDepth + TopFenceHeight;
-			const string key = nameof(TopFenceHeight) + nameof(ImmersionDepth);
 			if (currentHeight >= MinHeight && currentHeight <= MaxHeight || double.IsNaN(currentHeight))
 			{
 				return;

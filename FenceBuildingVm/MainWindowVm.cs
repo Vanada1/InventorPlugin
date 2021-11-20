@@ -199,6 +199,7 @@ namespace FenceBuildingVm
 		/// Конструктор.
 		/// </summary>
 		/// <param name="messageBoxService">Сервисный класс диалогового окна.</param>
+		/// <param name="buildFenceService">Сервис создания забора.</param>
 		public MainWindowVm(IMessageBoxService messageBoxService, IBuildFenceService buildFenceService)
 		{
 			_messageBoxService = messageBoxService;

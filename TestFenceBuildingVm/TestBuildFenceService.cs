@@ -5,7 +5,7 @@ using Services;
 namespace TestFenceBuildingVm
 {
 	/// <summary>
-	/// Тестовый класс для сервиса создания забора <see cref="IBuildFenceService"/>
+	/// Тестовый класс для сервиса создания забора <see cref="IBuildFenceService"/>.
 	/// </summary>
 	public class TestBuildFenceService : IBuildFenceService
 	{
