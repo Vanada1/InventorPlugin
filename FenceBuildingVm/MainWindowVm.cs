@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using InventorApi;
 using Services;
 
 namespace FenceBuildingVm
@@ -43,6 +45,11 @@ namespace FenceBuildingVm
 		/// Сервис создания забора.
 		/// </summary>
 		private readonly IBuildFenceService _buildFenceService;
+
+		/// <summary>
+		/// API сервисы.
+		/// </summary>
+		private readonly ObservableCollection<IApiService> _apiServices;
 
 		/// <summary>
 		/// Словарь русских полей.
@@ -200,10 +207,13 @@ namespace FenceBuildingVm
 		/// </summary>
 		/// <param name="messageBoxService">Сервисный класс диалогового окна.</param>
 		/// <param name="buildFenceService">Сервис создания забора.</param>
-		public MainWindowVm(IMessageBoxService messageBoxService, IBuildFenceService buildFenceService)
+		/// <param name="apiServices">API сервисы.</param>
+		public MainWindowVm(IMessageBoxService messageBoxService,
+			IBuildFenceService buildFenceService, IEnumerable<IApiService> apiServices)
 		{
 			_messageBoxService = messageBoxService;
 			_buildFenceService = buildFenceService;
+			_apiServices = new ObservableCollection<IApiService>(apiServices);
 			_russianFields = new Dictionary<string, string>
 			{
 				{ nameof(ColumnWidth), "Ширина столбика" },
@@ -326,7 +336,8 @@ namespace FenceBuildingVm
 
             try
 			{
-                _buildFenceService.BuildFence(_fenceParameters);
+				// TODO: поменять на выбранный индекс.
+                _buildFenceService.BuildFence(_fenceParameters, _apiServices[0]);
 			}
 			catch (ApplicationException e)
 			{

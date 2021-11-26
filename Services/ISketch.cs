@@ -12,6 +12,6 @@ namespace Services
 		/// </summary>
 		/// <param name="point1">Первая точка.</param>
 		/// <param name="point2">Вторая точка.</param>
-		void CreateRectangleByTwoPoint(Point point1, Point point2);
+		void CreateTwoPointRectangle(Point point1, Point point2);
 	}
 }

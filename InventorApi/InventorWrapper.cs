@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Services;
 
 namespace InventorApi
 {
@@ -8,38 +9,39 @@ namespace InventorApi
 	/// <summary>
 	/// Класс для работы с Inventor.
 	/// </summary>
-	public class InventorWrapper
+	public class InventorWrapper : IApiService
 	{
 		#region -- Properties --
 
 		/// <summary>
 		/// Ссылка на работу с документацией АПИ.
 		/// </summary>
-		public PartDocument PartDoc { get; private set; }
+		private PartDocument PartDoc { get; set; }
 
 		/// <summary>
 		/// Ссылка на приложение Inventor.
 		/// </summary>
-		public Application InvApp { get; private set; }
+		private Application InvApp { get; set; }
 
 		/// <summary>
 		/// Описание документа.
 		/// </summary>
-		public PartComponentDefinition PartDefinition { get; private set; }
+		private PartComponentDefinition PartDefinition { get; set; }
 
 		/// <summary>
 		/// Геометрия приложения.
 		/// </summary>
-		public TransientGeometry TransientGeometry { get; private set; }
+		private TransientGeometry TransientGeometry { get; set; }
+
+		/// <inheritdoc/>
+		public double Unit => 10.0;
 
 		#endregion
 
-		#region -- Public Methods --
+		#region -- IApiService --
 
-		/// <summary>
-		/// Создание нового документа.
-		/// </summary>
-		public void CreateNewDocument()
+		/// <inheritdoc/>
+		public void CreateDocument()
 		{
 			InvApp = null;
 			try
@@ -73,8 +75,46 @@ namespace InventorApi
 			// Описание документа
 			PartDefinition = PartDoc.ComponentDefinition;
 			// Инициализация метода геометрии
-			TransientGeometry = InvApp.TransientGeometry; 
+			TransientGeometry = InvApp.TransientGeometry;
 		}
+
+		/// <inheritdoc/>
+		public System.Windows.Point CreatePoint(double x, double y)
+		{
+			var point = TransientGeometry.CreatePoint2d(x, y);
+			return new System.Windows.Point(point.X, point.Y);
+		}
+
+		/// <inheritdoc/>
+		public ISketch CreateNewSketch(int n, double offset)
+		{
+			return new Sketch(MakeNewSketch(n, offset), TransientGeometry);
+		}
+
+		/// <inheritdoc/>
+		public void Extrude(ISketch sketch, double distance)
+		{
+			if (!(sketch is Sketch planarSketch))
+			{
+				throw new ArgumentException("Не подходящий экземпляр эскиза.");
+			}
+
+			Extrude(planarSketch.PlanarSketch, distance);
+		}
+
+		#endregion
+
+		#region -- Public Methods --
+
+		/// <inheritdoc/>
+		public override string ToString()
+		{
+			return "InventorAPI";
+		}
+
+		#endregion
+
+		#region -- Private Methods --
 
 		/// <summary>
 		/// Создает новый эскиз на рабочей плоскости.
@@ -82,7 +122,7 @@ namespace InventorApi
 		/// <param name="n">1 - ZY; 2 - ZX; 3 - XY.</param>
 		/// <param name="offset">Расстояние от поверхности.</param>
 		/// <returns>Новый эскиз.</returns>
-		public PlanarSketch MakeNewSketch(int n, double offset)
+		private PlanarSketch MakeNewSketch(int n, double offset)
 		{
 			var mainPlane = PartDefinition.WorkPlanes[n];       
 			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(
@@ -92,12 +132,12 @@ namespace InventorApi
 			return sketch;
 		}
 
-        /// <summary>
-        /// Выдавливание.
-        /// </summary>
-        /// <param name="sketch">Эскиз.</param>
-        /// <param name="distance">Значение, на которое происходит выдавливание.</param>
-        public void Extrude(PlanarSketch sketch, double distance)
+		/// <summary>
+		/// Выдавливание.
+		/// </summary>
+		/// <param name="sketch">Эскиз.</param>
+		/// <param name="distance">Значение, на которое происходит выдавливание.</param>
+		private void Extrude(PlanarSketch sketch, double distance)
 		{
 			sketch.Visible = false;
 			var sketchProfile = sketch.Profiles.AddForSolid();
@@ -113,24 +153,10 @@ namespace InventorApi
 		}
 
 		/// <summary>
-		/// Создает новый эскиз на поверхности детали.
-		/// </summary>
-		/// <param name="face">Плоскость.</param>
-		/// <param name="offset">Расстояние от плоскости, на котором будет создана новая поверхность.</param>
-		/// <returns>Новый эскиз.</returns>
-		public PlanarSketch MakeNewSketch(object face, double offset)
-		{
-			var offsetPlane = PartDefinition.WorkPlanes
-				.AddByPlaneAndOffset(face, offset, false);
-			var sketch = PartDefinition.Sketches.Add(offsetPlane, false);
-			return sketch;
-		}
-
-		/// <summary>
 		/// Создание объекта коллекции.
 		/// </summary>
 		/// <returns>Коллекция объектов</returns>
-		public ObjectCollection CreateObjectCollection()
+		private ObjectCollection CreateObjectCollection()
 		{
 			return InvApp.TransientObjects.CreateObjectCollection();
 		}

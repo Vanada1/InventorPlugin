@@ -180,6 +180,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Builder\Builder.csproj">
+      <Project>{0bf6cd15-e2e7-4daf-a29e-5e098b52e083}</Project>
+      <Name>Builder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FenceBuildingVm\FenceBuildingVm.csproj">
       <Project>{d4a76587-7f9d-4eea-bb80-6b756a9113ec}</Project>
       <Name>FenceBuildingVm</Name>

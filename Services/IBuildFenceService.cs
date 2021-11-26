@@ -11,6 +11,7 @@ namespace Services
 		/// Построить забор.
 		/// </summary>
 		/// <param name="fenceParameters">Параметры забора.</param>
-		void BuildFence(FenceParameters fenceParameters);
+		/// <param name="apiService">Используемое API.</param>
+		void BuildFence(FenceParameters fenceParameters, IApiService apiService);
 	}
 }

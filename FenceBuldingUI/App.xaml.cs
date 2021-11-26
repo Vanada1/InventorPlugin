@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using Builder;
 using FenceBuildingVm;
 using InventorApi;
 using Microsoft.Extensions.Configuration;
@@ -49,8 +50,9 @@ namespace FenceBuildingUI
 		{
 			service.AddScoped<IBuildFenceService, FenceBuilder>();
 			service.AddScoped<IMessageBoxService, MessageBoxService>();
+			service.AddSingleton<IApiService, InventorWrapper>();
 			service.AddTransient<MainWindowVm>();
-			service.AddTransient<MainWindow>(provider => new MainWindow
+			service.AddTransient(provider => new MainWindow
 				{ DataContext = provider.GetService<MainWindowVm>() });
 		}
 	}

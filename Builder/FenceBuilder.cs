@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Core;
-using Inventor;
 using Services;
 
-namespace InventorApi
+namespace Builder
 {
 
-	//TODO: Попробовать отделить от Inventor-a
+	//TODO: Попробовать отделить от Inventor-a (+)
 	/// <summary>
 	/// Класс для создания забора.
 	/// </summary>
@@ -16,9 +15,9 @@ namespace InventorApi
 		#region -- Fields --
 
 		/// <summary>
-		/// Экземпляр класса для работы с Inventor — <see cref="InventorWrapper"/>.
+		/// Экземпляр класса для работы с API.
 		/// </summary>
-		private readonly InventorWrapper _inventorWrapper;
+		private IApiService _apiService;
 
 		/// <summary>
 		/// Параметры забора.
@@ -32,38 +31,38 @@ namespace InventorApi
 		/// <summary>
 		/// Возвращает координату средней палки в мм.
 		/// </summary>
-		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight / 10.0
-		                               + _fenceParameters.ImmersionDepth / 10.0;
+		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight / _apiService.Unit
+									   + _fenceParameters.ImmersionDepth / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение ширины столбика в мм.
 		/// </summary>
-		private double ColumnWidth => _fenceParameters.ColumnWidth / 10.0;
+		private double ColumnWidth => _fenceParameters.ColumnWidth / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение расстояния между нижними перегородками в мм. 
 		/// </summary>
-		private double DistanceLowerBaffles => _fenceParameters.DistanceLowerBaffles / 10.0;
+		private double DistanceLowerBaffles => _fenceParameters.DistanceLowerBaffles / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение расстояния между верхними перегородками в мм. 
 		/// </summary>
-		private double DistanceUpperBaffles => _fenceParameters.DistanceUpperBaffles / 10.0;
+		private double DistanceUpperBaffles => _fenceParameters.DistanceUpperBaffles / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение высоты забора в мм.
 		/// </summary>
-		private double FenceLength => _fenceParameters.FenceLength / 10.0;
+		private double FenceLength => _fenceParameters.FenceLength / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение глубины погружения в мм.
 		/// </summary>
-		private double ImmersionDepth => _fenceParameters.ImmersionDepth / 10.0;
+		private double ImmersionDepth => _fenceParameters.ImmersionDepth / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение высоты верхней части забора в мм.
 		/// </summary>
-		private double TopFenceHeight => _fenceParameters.TopFenceHeight / 10.0;
+		private double TopFenceHeight => _fenceParameters.TopFenceHeight / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает общую высоту забора в мм.
@@ -77,20 +76,18 @@ namespace InventorApi
 		/// <summary>
 		/// Конструктор.
 		/// </summary>
-		public FenceBuilder()
-		{
-			_inventorWrapper = new InventorWrapper();
-		}
+		public FenceBuilder() { }
 
 		#endregion
 
 		#region -- Public Methods --
 
 		/// <inheritdoc/>
-		public void BuildFence(FenceParameters fenceParameters)
+		public void BuildFence(FenceParameters fenceParameters, IApiService apiService)
 		{
+			_apiService = apiService;
 			_fenceParameters = fenceParameters;
-			_inventorWrapper.CreateNewDocument();
+			_apiService.CreateDocument();
 			BuildCarcass();
 			BuildLowerInnerPart();
 			BuildUpperInnerPart();
@@ -109,36 +106,30 @@ namespace InventorApi
 			var fenceLength = FenceLength;
 			var fenceHeight = FenceHeight;
 			var immersionDepth = ImmersionDepth;
-			var points = new List<Point2d>
+			var points = new List<System.Windows.Point>
 			{
-				_inventorWrapper.TransientGeometry.CreatePoint2d(0, 0),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth,
-					fenceHeight),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength, 0),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth,
-					fenceHeight),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth,
-					fenceHeight - columnWidth),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth, immersionDepth),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth,
+				_apiService.CreatePoint(0, 0),
+				_apiService.CreatePoint(columnWidth, fenceHeight),
+				_apiService.CreatePoint(fenceLength, 0),
+				_apiService.CreatePoint(fenceLength - columnWidth, fenceHeight),
+				_apiService.CreatePoint(columnWidth, fenceHeight - columnWidth),
+				_apiService.CreatePoint(columnWidth, immersionDepth),
+				_apiService.CreatePoint(fenceLength - columnWidth,
 					immersionDepth + columnWidth),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(columnWidth, MiddleStickY),
-				_inventorWrapper.TransientGeometry.CreatePoint2d(fenceLength - columnWidth,
+				_apiService.CreatePoint(columnWidth, MiddleStickY),
+				_apiService.CreatePoint(fenceLength - columnWidth,
 					MiddleStickY - columnWidth),
 			};
 
-			var sketchXy = _inventorWrapper.MakeNewSketch(3, 0);
+			var sketchXy = _apiService.CreateNewSketch(3, 0);
 
-			var rectangles = new List<SketchEntitiesEnumerator>
-			{
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[0], points[1]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[2], points[3]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[3], points[4]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[5], points[6]),
-				sketchXy.SketchLines.AddAsTwoPointRectangle(points[7], points[8]),
-			};
+			sketchXy.CreateTwoPointRectangle(points[0], points[1]);
+			sketchXy.CreateTwoPointRectangle(points[2], points[3]);
+			sketchXy.CreateTwoPointRectangle(points[3], points[4]);
+			sketchXy.CreateTwoPointRectangle(points[5], points[6]);
+			sketchXy.CreateTwoPointRectangle(points[7], points[8]);
 
-			_inventorWrapper.Extrude(sketchXy, ColumnWidth);
+			_apiService.Extrude(sketchXy, ColumnWidth);
 		}
 
 		/// <summary>
@@ -180,26 +171,22 @@ namespace InventorApi
 			var fenceLength = FenceLength;
 			var deltaX = columnWidth + distance;
 
-			var currentPoint1 = _inventorWrapper.TransientGeometry
-				.CreatePoint2d(deltaX, y1);
-			var currentPoint2 = _inventorWrapper.TransientGeometry
-				.CreatePoint2d(deltaX + columnWidth, y2);
-			var sketchXy = _inventorWrapper.MakeNewSketch(3, 0);
-			var rectangles = new List<SketchEntitiesEnumerator>();
+			var currentPoint1 = _apiService.CreatePoint(deltaX, y1);
+			var currentPoint2 = _apiService.CreatePoint(deltaX + columnWidth, y2);
+			var sketchXy = _apiService.CreateNewSketch(3, 0);
 
 			while (fenceLength - columnWidth - currentPoint2.X > columnWidth)
 			{
-				rectangles.Add(sketchXy.SketchLines.AddAsTwoPointRectangle(currentPoint1,
-					currentPoint2));
+				sketchXy.CreateTwoPointRectangle(currentPoint1, currentPoint2);
 				currentPoint1 =
-					_inventorWrapper.TransientGeometry.CreatePoint2d(currentPoint2.X + distance,
+					_apiService.CreatePoint(currentPoint2.X + distance,
 						currentPoint1.Y);
 				currentPoint2 =
-					_inventorWrapper.TransientGeometry.CreatePoint2d(currentPoint1.X + columnWidth,
+					_apiService.CreatePoint(currentPoint1.X + columnWidth,
 						currentPoint2.Y);
 			}
 
-			_inventorWrapper.Extrude(sketchXy, ColumnWidth);
+			_apiService.Extrude(sketchXy, ColumnWidth);
 		}
 
 		#endregion
