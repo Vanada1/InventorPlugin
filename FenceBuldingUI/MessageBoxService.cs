@@ -9,7 +9,6 @@ namespace FenceBuildingUI
 	/// </summary>
 	public class MessageBoxService : IMessageBoxService
 	{
-		//TODO: Длинная строка(done)
 		/// <summary>
 		/// Словарь ассоциаций типа окна сообщения.
 		/// </summary>

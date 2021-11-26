@@ -5,6 +5,8 @@ using Services;
 
 namespace InventorApi
 {
+
+	//TODO: Попробовать отделить от Inventor-a
 	/// <summary>
 	/// Класс для создания забора.
 	/// </summary>
@@ -66,7 +68,7 @@ namespace InventorApi
 		/// <summary>
 		/// Возвращает общую высоту забора в мм.
 		/// </summary>
-		public double FenceHeight => TopFenceHeight + ImmersionDepth;
+		private double FenceHeight => TopFenceHeight + ImmersionDepth;
 
 		#endregion
 
