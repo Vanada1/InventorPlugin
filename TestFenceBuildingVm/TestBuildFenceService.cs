@@ -20,7 +20,7 @@ namespace TestFenceBuildingVm
 		public bool CanOpen { private get; set; } = true;
 
 		/// <inheritdoc/>
-		public void BuildFence(FenceParameters fenceParameters)
+		public void BuildFence(FenceParameters fenceParameters, IApiService apiService)
 		{
 			if (CanOpen)
 			{

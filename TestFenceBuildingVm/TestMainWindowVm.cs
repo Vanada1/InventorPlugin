@@ -1,5 +1,8 @@
-﻿using FenceBuildingVm;
+﻿using System.Collections.Generic;
+using CommonTestClass;
+using FenceBuildingVm;
 using NUnit.Framework;
+using Services;
 using Assert = NUnit.Framework.Assert;
 
 namespace TestFenceBuildingVm
@@ -24,7 +27,7 @@ namespace TestFenceBuildingVm
 		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>.
 		/// </summary>
 		private MainWindowVm ViewModel => new MainWindowVm(_messageBoxService,
-			_buildFenceService);
+			_buildFenceService, new List<IApiService>{new TestApiService()});
 		
 		#region -- Test INotifyDataErrorInfo --
 
