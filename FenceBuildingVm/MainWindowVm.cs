@@ -86,6 +86,11 @@ namespace FenceBuildingVm
 		/// </summary>
 		private string _topFenceHeight = string.Empty;
 
+		/// <summary>
+		/// Флаг проверки зависимости.
+		/// </summary>
+		private bool _isDependencyCheck = false;
+
 		#endregion
 
 		#region -- Properties --
@@ -274,11 +279,48 @@ namespace FenceBuildingVm
 			try
 			{
 				_actions[parameter](doubleValue);
+				if (!_isDependencyCheck)
+				{
+					_isDependencyCheck = true;
+					CheckDependency(parameter);
+					_isDependencyCheck = false;
+				}
+
 				ClearErrors(propertyName);
 			}
 			catch (ArgumentException e)
 			{
 				AddError(propertyName, e.Message);
+			}
+		}
+
+		private void CheckDependency(Parameters parameter)
+		{
+			switch (parameter)
+			{
+				case Parameters.ColumnWidth:
+				{
+					Set(Parameters.DistanceLowerBaffles, DistanceLowerBaffles);
+					Set(Parameters.DistanceUpperBaffles, DistanceUpperBaffles);
+					break;
+				}
+				case Parameters.TopFenceHeight:
+				{
+					Set(Parameters.ImmersionDepth, ImmersionDepth);
+					break;
+				}
+				case Parameters.ImmersionDepth:
+				{
+					Set(Parameters.TopFenceHeight, TopFenceHeight);
+					break;
+				}
+				case Parameters.DistanceLowerBaffles:
+				case Parameters.DistanceUpperBaffles:
+				case Parameters.FenceLength:
+				default:
+				{
+					break;
+				}
 			}
 		}
 

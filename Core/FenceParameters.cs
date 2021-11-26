@@ -81,7 +81,7 @@ namespace Core
 			set
 			{
 				var minValue = double.IsNaN(ColumnWidth) ? 10.0 : ColumnWidth;
-				var maxValue = double.IsNaN(FenceLength) ? 3000.0 : FenceLength;
+				var maxValue = (double.IsNaN(FenceLength) ? 3000.0 : FenceLength) / 2;
 				SetValue(ref _distanceLowerBaffles, value, minValue,
 					maxValue);
 			}
@@ -96,7 +96,7 @@ namespace Core
 			set
 			{
 				var minValue = double.IsNaN(ColumnWidth) ? 10.0 : ColumnWidth;
-				var maxValue = double.IsNaN(FenceLength) ? 3000.0 : FenceLength;
+				var maxValue = (double.IsNaN(FenceLength) ? 3000.0 : FenceLength) / 2;
 				SetValue(ref _distanceUpperBaffles, value, minValue,
 					maxValue);
 			}
@@ -126,12 +126,11 @@ namespace Core
 			set
 			{
 				var minValue = (int)(double.IsNaN(TopFenceHeight) ? MinHeight : 
-					TopFenceHeight) / 3 + 1;
+					TopFenceHeight) / 3;
 				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight :
 					TopFenceHeight) * 0.5;
 				SetValue(ref _immersionDepth, value, minValue,
 					maxValue);
-				CheckFenceHeight();
 			}
 		}
 
@@ -149,7 +148,6 @@ namespace Core
 					ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
 					maxValue);
-				CheckFenceHeight();
 			}
 		}
 
@@ -189,12 +187,12 @@ namespace Core
 		private void SetValue(ref double field, double value, double minValue,
 			double maxValue)
 		{
+			field = value;
+
 			if (!Validator.Validate(value, minValue, maxValue))
 			{
 				throw new ArgumentException($"значение не входит диапазон {minValue} — {maxValue}");
 			}
-			
-			field = value;
 		}
 
 		/// <summary>
