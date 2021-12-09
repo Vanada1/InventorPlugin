@@ -31,7 +31,7 @@ namespace KompasApi
 		/// <param name="part"></param>
 		public KompasSketch(ksPart part)
 		{
-			ksEntity plane = part.GetDefaultEntity((int)Obj3dType.o3d_planeXOY);
+			ksEntity plane = part.GetDefaultEntity((int)Obj3dType.o3d_planeXOZ);
 			Sketch = part.NewEntity((int)Obj3dType.o3d_sketch);
 			_sketchDefinition = Sketch.GetDefinition();
 			_sketchDefinition.SetPlane(plane);
@@ -47,10 +47,10 @@ namespace KompasApi
 		/// <inheritdoc/>
 		public void CreateTwoPointRectangle(Point point1, Point point2)
 		{
-			_document2D.ksLineSeg(point1.X, point1.Y, point2.X, point1.Y, 1);
-			_document2D.ksLineSeg(point2.X, point1.Y, point2.X, point2.Y, 1);
-			_document2D.ksLineSeg(point1.X, point2.Y, point2.X, point2.Y, 1);
-			_document2D.ksLineSeg(point1.X, point1.Y, point1.X, point2.Y, 1);
+			_document2D.ksLineSeg(point1.X, -point1.Y, point2.X, -point1.Y, 1);
+			_document2D.ksLineSeg(point2.X, -point1.Y, point2.X, -point2.Y, 1);
+			_document2D.ksLineSeg(point1.X, -point2.Y, point2.X, -point2.Y, 1);
+			_document2D.ksLineSeg(point1.X, -point1.Y, point1.X, -point2.Y, 1);
 		}
 	}
 }

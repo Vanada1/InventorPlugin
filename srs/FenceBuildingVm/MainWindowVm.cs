@@ -47,9 +47,9 @@ namespace FenceBuildingVm
 		private readonly IBuildFenceService _buildFenceService;
 
 		/// <summary>
-		/// API сервисы.
+		/// Выбранный API.
 		/// </summary>
-		private readonly ObservableCollection<IApiService> _apiServices;
+		private IApiService _selectedApi;
 
 		/// <summary>
 		/// Словарь русских полей.
@@ -178,6 +178,20 @@ namespace FenceBuildingVm
 		/// </summary>
 		public string ErrorText => GetAllErrors();
 
+		/// <summary>
+		/// Возвращает коллекцию <see cref="IApiService"/>.
+		/// </summary>
+		public ObservableCollection<IApiService> ApiServices { get; }
+
+		/// <summary>
+		/// Возвращает и устанавливает выбранный <see cref="IApiService"/>
+		/// </summary>
+		public IApiService SelectedApi
+		{
+			get => _selectedApi;
+			set => Set(ref _selectedApi, value);
+		}
+
 		#endregion
 
 		#region -- Commands --
@@ -218,7 +232,8 @@ namespace FenceBuildingVm
 		{
 			_messageBoxService = messageBoxService;
 			_buildFenceService = buildFenceService;
-			_apiServices = new ObservableCollection<IApiService>(apiServices);
+			ApiServices = new ObservableCollection<IApiService>(apiServices);
+			SelectedApi = ApiServices[0];
 			_russianFields = new Dictionary<string, string>
 			{
 				{ nameof(ColumnWidth), "Ширина столбика" },
@@ -378,8 +393,7 @@ namespace FenceBuildingVm
 
             try
 			{
-				// TODO: поменять на выбранный индекс.
-                _buildFenceService.BuildFence(_fenceParameters, _apiServices[0]);
+                _buildFenceService.BuildFence(_fenceParameters, SelectedApi);
 			}
 			catch (ApplicationException e)
 			{
