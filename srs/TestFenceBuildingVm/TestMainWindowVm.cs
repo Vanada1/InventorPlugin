@@ -386,6 +386,34 @@ namespace TestFenceBuildingVm
 
 		#endregion
 
+		#region -- Test SelectedApi --
+
+		[TestCase(TestName = "Проверка корректного получения" +
+							 " значения свойства SelectedApi.")]
+		public void TestSelectedApi_CorrectGetValue()
+		{
+			var viewModel = ViewModel;
+
+			var expected = new TestApiService();
+
+			viewModel.SelectedApi = expected;
+
+			var actual = viewModel.SelectedApi;
+
+			Assert.AreEqual(expected, actual, "Вернулось некорректное значение.");
+		}
+
+		[TestCase(TestName = "Проверка корректной записи значения свойства SelectedApi.")]
+		public void TestSelectedApi_CorrectSetValue()
+		{
+			var viewModel = ViewModel;
+
+			Assert.DoesNotThrow(()=> viewModel.SelectedApi = new TestApiService(),
+				"Не удалось присвоить корректное значение.");
+		}
+
+		#endregion
+
 		#region -- Test Private Methods --
 
 		[TestCase(TestName = "Проверка перезаписи ошибки. " +
