@@ -311,7 +311,7 @@ namespace TestCore
 		{
 			var fenceParameters = FenceParameters;
 			fenceParameters.TopFenceHeight = 1500.0;
-			Assert.Throws<ArgumentException>(() => fenceParameters.ImmersionDepth = 1,
+			Assert.Throws<ArgumentException>(() => fenceParameters.ImmersionDepth = 750.0,
 				"Значение суммарной высоты входит диапазон общей высоты забора.");
 		}
 
