@@ -192,6 +192,10 @@
       <Project>{42a5108f-769d-4355-9033-bca165e255ce}</Project>
       <Name>InventorApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KompasApi\KompasApi.csproj">
+      <Project>{8dbd2be6-788c-4028-8972-2b0907e0b1fe}</Project>
+      <Name>KompasApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{9ee396e9-8e0c-4ad1-95c3-51b5eaac1661}</Project>
       <Name>Services</Name>

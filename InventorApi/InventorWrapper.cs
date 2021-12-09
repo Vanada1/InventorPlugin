@@ -109,7 +109,7 @@ namespace InventorApi
 		/// <inheritdoc/>
 		public override string ToString()
 		{
-			return "InventorAPI";
+			return "Inventor";
 		}
 
 		#endregion
