@@ -31,13 +31,9 @@ jobs:
       - name: Build Solution
         run: |
           msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="UnitTests"
-          
-     # Execute all unit tests in the solution
-      - name: Execute unit tests
-        run: dotnet test
         
       - name: Run UnitTests
         run: |
-          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll
-          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll
-          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll
+          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll --ListFullyQualifiedTests
+          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll --ListFullyQualifiedTests
+          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll --ListFullyQualifiedTests
