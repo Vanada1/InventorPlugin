@@ -30,7 +30,7 @@ jobs:
 
       - name: Build TestBuilder
         run: |
-          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="UnitTests"
         
       - name: Run Tests
         run: |
