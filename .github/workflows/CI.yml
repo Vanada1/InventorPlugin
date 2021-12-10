@@ -30,15 +30,15 @@ jobs:
 
       - name: Build TestBuilder
         run: |
-          msbuild.exe .\src\TestBuilder\TestBuilder.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\TestBuilder\TestBuilder.csproj /p:platform="Any CPU"
          
       - name: Build TestCore
         run: |
-          msbuild.exe .\src\TestCore\TestCore.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\TestCore\TestCore.csproj /p:platform="Any CPU"
           
       - name: Build TestFenceBuildingVm
         run: |
-          msbuild.exe .\src\TestFenceBuildingVm\TestFenceBuildingVm.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\TestFenceBuildingVm\TestFenceBuildingVm.csproj /p:platform="Any CPU"
         
       - name: Run TestBuilder
         run: |
