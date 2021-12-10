@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Solution
         run: |
-          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\Test*\*.csproj /p:platform="Any CPU" /p:configuration="Release"
         
       - name: Run TestBuilder
         run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
