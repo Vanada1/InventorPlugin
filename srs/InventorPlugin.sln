@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTestClass", "CommonTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KompasApi", "KompasApi\KompasApi.csproj", "{8DBD2BE6-788C-4028-8972-2B0907E0B1FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StressTesting", "StressTesting\StressTesting.csproj", "{0619FB5D-CF08-4296-9C64-CFC9773B92C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{8DBD2BE6-788C-4028-8972-2B0907E0B1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DBD2BE6-788C-4028-8972-2B0907E0B1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DBD2BE6-788C-4028-8972-2B0907E0B1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0619FB5D-CF08-4296-9C64-CFC9773B92C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0619FB5D-CF08-4296-9C64-CFC9773B92C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0619FB5D-CF08-4296-9C64-CFC9773B92C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0619FB5D-CF08-4296-9C64-CFC9773B92C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{2EDDC778-3F49-4705-85CD-58640195C547} = {8054CBFA-8C1E-40AE-995D-AE2EC353FAC1}
 		{71F72CD8-6750-4164-A60A-C9703413FE1B} = {8054CBFA-8C1E-40AE-995D-AE2EC353FAC1}
 		{F61F4A55-74DC-4A4D-8359-D2BC233DFE1C} = {8054CBFA-8C1E-40AE-995D-AE2EC353FAC1}
+		{0619FB5D-CF08-4296-9C64-CFC9773B92C8} = {8054CBFA-8C1E-40AE-995D-AE2EC353FAC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2BF2E346-1CCB-42BE-8E6F-886FD913745A}
