@@ -31,6 +31,10 @@ jobs:
       - name: Build Solution
         run: |
           msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="UnitTests"
+          
+     # Execute all unit tests in the solution
+      - name: Execute unit tests
+        run: dotnet test
         
       - name: Run UnitTests
         run: |
