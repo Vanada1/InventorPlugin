@@ -34,9 +34,3 @@ jobs:
         
       - name: Run TestBuilder
         run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
-        
-      - name: Run TestCore
-        run: vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
-        
-      - name: Run TestFenceBuildingVm1
-        run: vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
