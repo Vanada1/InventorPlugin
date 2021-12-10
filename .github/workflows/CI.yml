@@ -34,6 +34,6 @@ jobs:
         
       - name: Run UnitTests
         run: |
-          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll --ListFullyQualifiedTests
-          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll --ListFullyQualifiedTests
-          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll --ListFullyQualifiedTests
+          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll
+          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll
+          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll
