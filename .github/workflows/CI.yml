@@ -38,5 +38,5 @@ jobs:
       - name: Run TestCore
         run: vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
         
-      - name: Run TestFenceBuildingVm
+      - name: Run TestFenceBuildingVm1
         run: vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
