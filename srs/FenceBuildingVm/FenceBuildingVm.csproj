@@ -72,10 +72,6 @@
       <Project>{0ad9376d-4ba2-450e-b152-b356aa9cbebd}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InventorApi\InventorApi.csproj">
-      <Project>{42A5108F-769D-4355-9033-BCA165E255CE}</Project>
-      <Name>InventorApi</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Services\Services.csproj">
       <Project>{9ee396e9-8e0c-4ad1-95c3-51b5eaac1661}</Project>
       <Name>Services</Name>

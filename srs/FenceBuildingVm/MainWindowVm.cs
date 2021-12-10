@@ -8,7 +8,6 @@ using System.Windows.Input;
 using Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using InventorApi;
 using Services;
 
 namespace FenceBuildingVm
