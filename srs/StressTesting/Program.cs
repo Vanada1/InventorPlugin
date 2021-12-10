@@ -18,7 +18,7 @@ namespace StressTesting
 		static void Main(string[] args)
 		{
 			TestInventor();
-			TestKompas3D();
+			//TestKompas3D();
 		}
 
 		private static void TestInventor()
@@ -44,9 +44,12 @@ namespace StressTesting
 			{
 				builder.BuildFence(fenceParameters, apiService);
 				streamWriter.WriteLine($"{++count} -- {stopWatch.Elapsed:hh\\:mm\\:ss}");
+				streamWriter.Flush();
 			}
-			stopWatch.Stop();
 
+			stopWatch.Stop();
+			streamWriter.Close();
+			streamWriter.Dispose();
 			Console.Write($"End {stopWatch.Elapsed}");
 		}
 	}
