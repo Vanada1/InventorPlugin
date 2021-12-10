@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using CommonTestClass;
+﻿using CommonTestClass;
 using FenceBuildingVm;
 using NUnit.Framework;
 using Services;
+using System.Collections.Generic;
 using Assert = NUnit.Framework.Assert;
 
 namespace TestFenceBuildingVm
@@ -27,18 +27,18 @@ namespace TestFenceBuildingVm
 		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>.
 		/// </summary>
 		private MainWindowVm ViewModel => new MainWindowVm(_messageBoxService,
-			_buildFenceService, new List<IApiService>{new TestApiService()});
-		
+			_buildFenceService, new List<IApiService> { new TestApiService() });
+
 		#region -- Test INotifyDataErrorInfo --
 
 		[TestCase(TestName = "Проверка свойства HasErrors — " +
-		                     "должно вернуться значение типа bool." +
-		                     " Не должно вызываться исключение")]
+							 "должно вернуться значение типа bool." +
+							 " Не должно вызываться исключение")]
 		public void TestHasErrors_CorrectGet()
 		{
 			var viewModel = ViewModel;
 
-			Assert.DoesNotThrow(()=>
+			Assert.DoesNotThrow(() =>
 			{
 				var hasError = viewModel.HasErrors;
 			},
@@ -59,7 +59,7 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(TestName = "Проверка метода GetErrors." +
-		                     " Должна вернуться пустая строка.")]
+							 " Должна вернуться пустая строка.")]
 		public void TestGetErrors_GetEmptyString()
 		{
 			var viewModel = ViewModel;
@@ -72,7 +72,7 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(TestName = "Проверка метода GetErrors." +
-		                     " Должна вернуться не пустая строка.")]
+							 " Должна вернуться не пустая строка.")]
 		public void TestGetErrors_GetErrorMessage()
 		{
 			var viewModel = ViewModel;
@@ -91,7 +91,7 @@ namespace TestFenceBuildingVm
 		#region -- Test ColumnWidth --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства ColumnWidth.")]
+							 " значения свойства ColumnWidth.")]
 		public void TestColumnWidth_CorrectGetValue()
 		{
 			var viewModel = ViewModel;
@@ -120,10 +120,10 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения свойства ColumnWidth," +
-		                          " меньшему минимальному." +
+								  " меньшему минимальному." +
 								  " Должно свойство HasErrors быть в значении True.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения свойства ColumnWidth," +
-		                              " большему максимальному." +
+									  " большему максимальному." +
 									  " Должно свойство HasErrors быть в значении True.")]
 		public void TestColumnWidth_IncorrectSetValue(double value)
 		{
@@ -408,7 +408,7 @@ namespace TestFenceBuildingVm
 		{
 			var viewModel = ViewModel;
 
-			Assert.DoesNotThrow(()=> viewModel.SelectedApi = new TestApiService(),
+			Assert.DoesNotThrow(() => viewModel.SelectedApi = new TestApiService(),
 				"Не удалось присвоить корректное значение.");
 		}
 
@@ -417,7 +417,7 @@ namespace TestFenceBuildingVm
 		#region -- Test Private Methods --
 
 		[TestCase(TestName = "Проверка перезаписи ошибки. " +
-		                     "Должна быть новая ошибка.")]
+							 "Должна быть новая ошибка.")]
 		public void TestAddErrors_RewritingErrors()
 		{
 			var viewModel = ViewModel;
@@ -430,12 +430,12 @@ namespace TestFenceBuildingVm
 			var secondErrors = viewModel
 				.GetErrors(nameof(viewModel.ColumnWidth));
 
-			Assert.AreNotEqual(firstError, secondErrors, 
+			Assert.AreNotEqual(firstError, secondErrors,
 				"Событие не вызывается при изменении свойств.");
 		}
 
 		[TestCase(TestName = "Проверка метода GetAllErrors." +
-		                     " Должна вернуться пустая строка.")]
+							 " Должна вернуться пустая строка.")]
 		public void TestGetAllErrors_GetEmptyString()
 		{
 			var viewModel = ViewModel;
@@ -448,7 +448,7 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(TestName = "Проверка метода GetAllErrors." +
-		                     " Должна вернуться не пустая строка.")]
+							 " Должна вернуться не пустая строка.")]
 		public void TestGetAllErrors_GetAllErrorMessages()
 		{
 			var viewModel = ViewModel;
@@ -465,8 +465,8 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(TestName = "Проверка метода BuildFence," +
-		                     " через команду BuildCommand. " +
-		                     "Должно вызвать окно сообщения.")]
+							 " через команду BuildCommand. " +
+							 "Должно вызвать окно сообщения.")]
 		public void TestBuildFence_HasErrors()
 		{
 			_messageBoxService = new TestMessageBoxService();
@@ -482,8 +482,8 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(TestName = "Проверка метода BuildFence," +
-		                     " через команду BuildCommand. " +
-		                     "Должен построится забор.")]
+							 " через команду BuildCommand. " +
+							 "Должен построится забор.")]
 		public void TestBuildFence_CanBuild()
 		{
 			_buildFenceService = new TestBuildFenceService();
@@ -495,8 +495,8 @@ namespace TestFenceBuildingVm
 		}
 
 		[TestCase(TestName = "Проверка метода BuildFence," +
-		                     " через команду BuildCommand. " +
-		                     "Должно открыться окно сообщения.")]
+							 " через команду BuildCommand. " +
+							 "Должно открыться окно сообщения.")]
 		public void TestBuildFence_CannotOpenCAD()
 		{
 			_messageBoxService = new TestMessageBoxService();

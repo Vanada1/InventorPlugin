@@ -1,13 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using Builder;
+﻿using Builder;
 using FenceBuildingVm;
 using InventorApi;
 using KompasApi;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
+using System;
+using System.IO;
+using System.Windows;
 
 namespace FenceBuildingUI
 {
@@ -55,7 +55,7 @@ namespace FenceBuildingUI
 			service.AddSingleton<IApiService, KompasWrapper>();
 			service.AddTransient<MainWindowVm>();
 			service.AddTransient(provider => new MainWindow
-				{ DataContext = provider.GetService<MainWindowVm>() });
+			{ DataContext = provider.GetService<MainWindowVm>() });
 		}
 	}
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Core;
+﻿using Core;
 using Services;
+using System.Collections.Generic;
 
 namespace Builder
 {

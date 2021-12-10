@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Services;
+using System;
 using System.Runtime.InteropServices;
-using Services;
 
 namespace InventorApi
 {
@@ -124,7 +124,7 @@ namespace InventorApi
 		/// <returns>Новый эскиз.</returns>
 		private PlanarSketch MakeNewSketch(int n, double offset)
 		{
-			var mainPlane = PartDefinition.WorkPlanes[n];       
+			var mainPlane = PartDefinition.WorkPlanes[n];
 			var offsetPlane = PartDefinition.WorkPlanes.AddByPlaneAndOffset(
 				mainPlane, offset, false);
 			offsetPlane.Visible = false;

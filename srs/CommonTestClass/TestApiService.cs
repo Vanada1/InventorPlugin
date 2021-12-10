@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Services;
+﻿using Services;
+using System.Windows;
 
 namespace CommonTestClass
 {

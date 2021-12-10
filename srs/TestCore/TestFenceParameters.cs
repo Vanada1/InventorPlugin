@@ -1,6 +1,6 @@
-﻿using System;
-using Core;
+﻿using Core;
 using NUnit.Framework;
+using System;
 
 namespace TestCore
 {
@@ -18,7 +18,7 @@ namespace TestCore
 		#region -- Test ColumnWidth --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства ColumnWidth.")]
+							 " значения свойства ColumnWidth.")]
 		public void TestColumnWidth_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -34,7 +34,7 @@ namespace TestCore
 		}
 
 		[TestCase(TestName = "Проверка корректной записи значения свойства ColumnWidth." +
-		                     " Не должно выбрасывать исключения.")]
+							 " Не должно выбрасывать исключения.")]
 		public void TestColumnWidth_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -45,15 +45,15 @@ namespace TestCore
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения свойства ColumnWidth," +
-		                          " меньшему минимальному." +
-		                          "  Должно выбросить исключение.")]
+								  " меньшему минимальному." +
+								  "  Должно выбросить исключение.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения свойства ColumnWidth," +
-		                              " большему максимальному." +
+									  " большему максимальному." +
 									  " Должно выбросить исключение.")]
 		public void TestColumnWidth_IncorrectSetValue(double value)
 		{
 			var fenceParameters = FenceParameters;
-			Assert.Throws<ArgumentException>(()=> fenceParameters.ColumnWidth = value,
+			Assert.Throws<ArgumentException>(() => fenceParameters.ColumnWidth = value,
 				$"Присвоило значение не входящие в диапазон.");
 		}
 
@@ -62,7 +62,7 @@ namespace TestCore
 		#region -- Test DistanceLowerBaffles --
 
 		[TestCase(TestName = "Проверка корректного получения " +
-		                     "значения свойства DistanceLowerBaffles.")]
+							 "значения свойства DistanceLowerBaffles.")]
 		public void TestDistanceLowerBaffles_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -78,8 +78,8 @@ namespace TestCore
 		}
 
 		[TestCase(TestName = "Проверка корректной записи значения " +
-		                     "свойства DistanceLowerBaffles." +
-		                     " Не должно выбрасывать исключения.")]
+							 "свойства DistanceLowerBaffles." +
+							 " Не должно выбрасывать исключения.")]
 		public void TestDistanceLowerBaffles_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -90,10 +90,10 @@ namespace TestCore
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения свойства DistanceLowerBaffles," +
-		                          " меньшему минимальному." +
+								  " меньшему минимальному." +
 								  " Должно выбросить исключение.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения свойства DistanceLowerBaffles," +
-		                              " большему максимальному." +
+									  " большему максимальному." +
 									  " Должно выбросить исключение.")]
 		public void TestDistanceLowerBaffles_IncorrectSetValue(double value)
 		{
@@ -107,7 +107,7 @@ namespace TestCore
 		#region -- Test DistanceUpperBaffles --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства DistanceUpperBaffles.")]
+							 " значения свойства DistanceUpperBaffles.")]
 		public void TestDistanceUpperBaffles_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -123,8 +123,8 @@ namespace TestCore
 		}
 
 		[TestCase(TestName = "Проверка корректной записи значения" +
-		                     " свойства DistanceUpperBaffles." +
-		                     " Не должно выбрасывать исключения.")]
+							 " свойства DistanceUpperBaffles." +
+							 " Не должно выбрасывать исключения.")]
 		public void TestDistanceUpperBaffles_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -135,10 +135,10 @@ namespace TestCore
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения свойства DistanceUpperBaffles," +
-		                          " меньшему минимальному." +
+								  " меньшему минимальному." +
 								  " Должно выбросить исключение.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения свойства DistanceUpperBaffles," +
-		                              " большему максимальному." +
+									  " большему максимальному." +
 									  " Должно выбросить исключение.")]
 		public void TestDistanceUpperBaffles_IncorrectSetValue(double value)
 		{
@@ -152,7 +152,7 @@ namespace TestCore
 		#region -- Test FenceLength --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства FenceLength.")]
+							 " значения свойства FenceLength.")]
 		public void TestFenceLength_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -168,7 +168,7 @@ namespace TestCore
 		}
 
 		[TestCase(TestName = "Проверка корректной записи значения " +
-		                     "свойства FenceLength. Не должно выбрасывать исключения.")]
+							 "свойства FenceLength. Не должно выбрасывать исключения.")]
 		public void TestFenceLength_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -179,10 +179,10 @@ namespace TestCore
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения свойства FenceLength," +
-		                          " меньшему минимальному." +
+								  " меньшему минимальному." +
 								  " Должно выбросить исключение.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения свойства FenceLength," +
-		                              " большему максимальному." +
+									  " большему максимальному." +
 									  " Должно выбросить исключение.")]
 		public void TestFenceLength_IncorrectSetValue(double value)
 		{
@@ -196,7 +196,7 @@ namespace TestCore
 		#region -- Test ImmersionDepth --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства ImmersionDepth.")]
+							 " значения свойства ImmersionDepth.")]
 		public void TestImmersionDepth_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -212,8 +212,8 @@ namespace TestCore
 		}
 
 		[TestCase(TestName = "Проверка корректной записи значения " +
-		                     "свойства ImmersionDepth." +
-		                     " Не должно выбрасывать исключения.")]
+							 "свойства ImmersionDepth." +
+							 " Не должно выбрасывать исключения.")]
 		public void TestImmersionDepth_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -224,10 +224,10 @@ namespace TestCore
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения свойства ImmersionDepth," +
-		                          " меньшему минимальному." +
+								  " меньшему минимальному." +
 								  " Должно выбросить исключение.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения свойства ImmersionDepth," +
-		                              " большему максимальному." +
+									  " большему максимальному." +
 									  " Должно выбросить исключение.")]
 		public void TestImmersionDepth_IncorrectSetValue(double value)
 		{
@@ -241,7 +241,7 @@ namespace TestCore
 		#region -- Test TopFenceHeight --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства TopFenceHeight.")]
+							 " значения свойства TopFenceHeight.")]
 		public void TestTopFenceHeight_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -257,8 +257,8 @@ namespace TestCore
 		}
 
 		[TestCase(TestName = "Проверка корректной записи " +
-		                     "значения свойства TopFenceHeight. " +
-		                     "Не должно выбрасывать исключения.")]
+							 "значения свойства TopFenceHeight. " +
+							 "Не должно выбрасывать исключения.")]
 		public void TestTopFenceHeight_CorrectSetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -269,10 +269,10 @@ namespace TestCore
 		}
 
 		[TestCase(9.0, TestName = "Проверка некорректной передачи значения" +
-		                          " свойства TopFenceHeight, меньшему минимальному." +
+								  " свойства TopFenceHeight, меньшему минимальному." +
 								  " Должно выбросить исключение.")]
 		[TestCase(10000.0, TestName = "Проверка некорректной передачи значения" +
-		                              " свойства TopFenceHeight, большему максимальному." +
+									  " свойства TopFenceHeight, большему максимальному." +
 									  " Должно выбросить исключение.")]
 		public void TestTopFenceHeight_IncorrectSetValue(double value)
 		{
@@ -286,7 +286,7 @@ namespace TestCore
 		#region -- Test FenceHeight --
 
 		[TestCase(TestName = "Проверка корректного получения" +
-		                     " значения свойства FenceHeight.")]
+							 " значения свойства FenceHeight.")]
 		public void TestFenceHeight_CorrectGetValue()
 		{
 			var fenceParameters = FenceParameters;
@@ -305,8 +305,8 @@ namespace TestCore
 		#region -- Test CheckFenceHeight --
 
 		[TestCase(TestName = "Сравнение значения суммарной" +
-		                     " высоты с общей разрешенной высотой забора." +
-		                     " Должно выкинуться исключение.")]
+							 " высоты с общей разрешенной высотой забора." +
+							 " Должно выкинуться исключение.")]
 		public void TestCheckFenceHeight_InCorrectHeight()
 		{
 			var fenceParameters = FenceParameters;

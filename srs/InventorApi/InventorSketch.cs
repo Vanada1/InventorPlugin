@@ -1,5 +1,5 @@
-﻿using Services;
-using Inventor;
+﻿using Inventor;
+using Services;
 using Point = System.Windows.Point;
 
 namespace InventorApi
@@ -9,7 +9,7 @@ namespace InventorApi
 	/// </summary>
 	internal class InventorSketch : ISketch
 	{
-		
+
 		/// <summary>
 		/// Геометрия.
 		/// </summary>

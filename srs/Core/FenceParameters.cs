@@ -125,7 +125,7 @@ namespace Core
 			get => _immersionDepth;
 			set
 			{
-				var minValue = (int)(double.IsNaN(TopFenceHeight) ? MinHeight : 
+				var minValue = (int)(double.IsNaN(TopFenceHeight) ? MinHeight :
 					TopFenceHeight) / 3;
 				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight :
 					TopFenceHeight) * 0.5;
@@ -145,7 +145,7 @@ namespace Core
 			{
 				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 :
 					ImmersionDepth) * 2;
-				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 : 
+				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 :
 					ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
 					maxValue);

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Services;
+using System.Collections.Generic;
 using System.Windows;
-using Services;
 
 namespace FenceBuildingUI
 {

@@ -1,6 +1,6 @@
-﻿using System;
-using Core;
+﻿using Core;
 using Services;
+using System;
 
 namespace TestFenceBuildingVm
 {

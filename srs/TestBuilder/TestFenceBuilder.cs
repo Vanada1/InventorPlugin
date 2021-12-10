@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Builder;
+﻿using Builder;
 using CommonTestClass;
 using Core;
 using NUnit.Framework;

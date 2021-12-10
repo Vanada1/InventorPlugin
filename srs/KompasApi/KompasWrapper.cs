@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Kompas6API5;
+﻿using Kompas6API5;
 using Kompas6Constants3D;
 using Services;
+using System;
+using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace KompasApi
 {
 	/// <summary>
 	/// Класс построения забора в Компас 3D.
 	/// </summary>
-    public class KompasWrapper : IApiService
+	public class KompasWrapper : IApiService
 	{
 		/// <summary>
 		/// Объект Компас 3D.
@@ -34,9 +30,9 @@ namespace KompasApi
 		/// <inheritdoc/>
 		public double Unit => 1;
 
-	    /// <inheritdoc/>
+		/// <inheritdoc/>
 		public void CreateDocument()
-	    {
+		{
 			if (_kompasObject == null)
 			{
 				var kompasType = Type.GetTypeFromProgID("KOMPAS.Application.5");
@@ -75,28 +71,28 @@ namespace KompasApi
 			}
 		}
 
-	    /// <inheritdoc/>
+		/// <inheritdoc/>
 		public Point CreatePoint(double x, double y)
-	    {
-		    return new Point(x, y);
-	    }
+		{
+			return new Point(x, y);
+		}
 
-	    /// <inheritdoc/>
+		/// <inheritdoc/>
 		public ISketch CreateNewSketch(int n, double offset)
-	    {
-		    return new KompasSketch(_part);
-	    }
+		{
+			return new KompasSketch(_part);
+		}
 
-	    /// <inheritdoc/>
+		/// <inheritdoc/>
 		public void Extrude(ISketch sketch, double distance)
-	    {
-		    if (!(sketch is KompasSketch kompasSketch))
-		    {
-			    throw new TypeAccessException($"Неверный тип эскиза." +
-			                                  $" Нужный тип эскиза {nameof(KompasSketch)}.");
-		    }
+		{
+			if (!(sketch is KompasSketch kompasSketch))
+			{
+				throw new TypeAccessException($"Неверный тип эскиза." +
+											  $" Нужный тип эскиза {nameof(KompasSketch)}.");
+			}
 
-		    kompasSketch.EndEdit();
+			kompasSketch.EndEdit();
 			ksEntity extrude = _part.NewEntity((int)Obj3dType.o3d_bossExtrusion);
 			ksBossExtrusionDefinition extrudeDefinition = extrude.GetDefinition();
 			extrudeDefinition.directionType = (int)Direction_Type.dtNormal;
@@ -106,10 +102,10 @@ namespace KompasApi
 			extrude.Create();
 		}
 
-	    /// <inheritdoc/>
+		/// <inheritdoc/>
 		public override string ToString()
-	    {
-		    return "Kompas 3D";
-	    }
-    }
+		{
+			return "Kompas 3D";
+		}
+	}
 }

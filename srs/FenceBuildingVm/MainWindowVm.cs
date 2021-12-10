@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Core;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
+using Services;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using Core;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using Services;
 
 namespace FenceBuildingVm
 {
@@ -313,28 +313,28 @@ namespace FenceBuildingVm
 			switch (parameter)
 			{
 				case Parameters.ColumnWidth:
-				{
-					Set(Parameters.DistanceLowerBaffles, DistanceLowerBaffles);
-					Set(Parameters.DistanceUpperBaffles, DistanceUpperBaffles);
-					break;
-				}
+					{
+						Set(Parameters.DistanceLowerBaffles, DistanceLowerBaffles);
+						Set(Parameters.DistanceUpperBaffles, DistanceUpperBaffles);
+						break;
+					}
 				case Parameters.TopFenceHeight:
-				{
-					Set(Parameters.ImmersionDepth, ImmersionDepth);
-					break;
-				}
+					{
+						Set(Parameters.ImmersionDepth, ImmersionDepth);
+						break;
+					}
 				case Parameters.ImmersionDepth:
-				{
-					Set(Parameters.TopFenceHeight, TopFenceHeight);
-					break;
-				}
+					{
+						Set(Parameters.TopFenceHeight, TopFenceHeight);
+						break;
+					}
 				case Parameters.DistanceLowerBaffles:
 				case Parameters.DistanceUpperBaffles:
 				case Parameters.FenceLength:
 				default:
-				{
-					break;
-				}
+					{
+						break;
+					}
 			}
 		}
 
@@ -385,14 +385,14 @@ namespace FenceBuildingVm
 		{
 			if (HasErrors)
 			{
-				_messageBoxService.Show("Не все ошибки исправлены!", 
+				_messageBoxService.Show("Не все ошибки исправлены!",
 					"Ошибка!", MessageType.Error);
 				return;
 			}
 
-            try
+			try
 			{
-                _buildFenceService.BuildFence(_fenceParameters, SelectedApi);
+				_buildFenceService.BuildFence(_fenceParameters, SelectedApi);
 			}
 			catch (ApplicationException e)
 			{
