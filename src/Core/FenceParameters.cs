@@ -131,7 +131,6 @@ namespace Core
 					TopFenceHeight) * 0.5;
 				SetValue(ref _immersionDepth, value, minValue,
 					maxValue);
-				CheckFenceHeight();
 			}
 		}
 
@@ -149,7 +148,6 @@ namespace Core
 					ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
 					maxValue);
-				CheckFenceHeight();
 			}
 		}
 
