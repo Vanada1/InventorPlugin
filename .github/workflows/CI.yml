@@ -2,9 +2,9 @@ name: CI
 
 on:  
   push:
-    branches: [ main ]
+    branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:  
   build:    
@@ -26,17 +26,14 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Restore Packages
-        run: nuget restore src\InventorPlugin.sln
+        run: nuget restore .\src\InventorPlugin.sln
 
-      - name: Build Solution
+      - name: Build TestBuilder
         run: |
-          msbuild.exe src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
-      - name: Run TestBuilder
-        run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
-        
-      - name: Run TestCore
-        run: vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
-        
-      - name: Run TestFenceBuildingVm1
-        run: vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
+      - name: Run Tests
+        run: |
+          vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
+          vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
+          vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
