@@ -10,6 +10,9 @@ jobs:
   build:    
     runs-on: windows-latest
     
+    env:
+      config: 'UnitTests'
+    
     steps:      
       - uses: actions/checkout@v2
       
@@ -30,10 +33,10 @@ jobs:
 
       - name: Build Solution
         run: |
-          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="UnitTests"
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="$config"
         
       - name: Run UnitTests
         run: |
-          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll
-          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll
-          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll
+          vstest.console.exe .\src\TestBuilder\bin\$config\TestBuilder.dll
+          vstest.console.exe .\src\TestCore\bin\$config\TestCore.dll
+          vstest.console.exe .\src\TestFenceBuildingVm\bin\$config\TestFenceBuildingVm.dll
