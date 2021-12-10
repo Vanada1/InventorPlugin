@@ -12,6 +12,7 @@ jobs:
     
     env:
       config: 'UnitTests'
+      path: '.\src\InventorPlugin.sln'
     
     steps:      
       - uses: actions/checkout@v2
@@ -30,9 +31,10 @@ jobs:
 
       - name: Restore Packages
         run: nuget restore .\src\InventorPlugin.sln 
+        
         # restore dependencies  
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore --configuration $config --lock-file-path $path
 
       # build project
       - name: Build
