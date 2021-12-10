@@ -8,7 +8,7 @@ on:
 
 jobs:  
   build:    
-    runs-on: windows-latest
+    runs-on: [windows-latest]
     
     steps:      
       - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Solution
         run: |
-          msbuild.exe */*.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
       - name: Run Tests
         run: vstest.console.exe .\TestBuilder\bin\Release\TestBuilder.dll
