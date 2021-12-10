@@ -1,0 +1,40 @@
+name: CI
+
+on:  
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:  
+  build:    
+    runs-on: [windows-latest]
+    
+    steps:      
+      - uses: actions/checkout@v2
+      
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+        
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1
+
+      - name: Navigate to Workspace
+        run: cd $GITHUB_WORKSPACE\src
+
+      - name: Restore Packages
+        run: nuget restore InventorPlugin.sln
+
+      - name: Build Solution
+        run: |
+          msbuild.exe InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
+        
+      - name: Run Tests
+        run: vstest.console.exe .\TestBuilder\bin\Release\TestBuilder.dll
+      - name: Run Tests
+        run: vstest.console.exe .\TestCore\bin\Release\TestCore.dll
+      - name: Run Tests
+        run: vstest.console.exe .\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
