@@ -32,9 +32,11 @@ jobs:
         run: |
           msbuild.exe src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
-      - name: Run Tests
+      - name: Run TestBuilder
         run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
-      - name: Run Tests
+        
+      - name: Run TestCore
         run: vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
-      - name: Run Tests
+        
+      - name: Run TestFenceBuildingVm1
         run: vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
