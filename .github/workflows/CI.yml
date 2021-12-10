@@ -30,24 +30,10 @@ jobs:
 
       - name: Build TestBuilder
         run: |
-          msbuild.exe .\src\TestBuilder\TestBuilder.csproj /p:platform="Any CPU"
-         
-      - name: Build TestCore
-        run: |
-          msbuild.exe .\src\TestCore\TestCore.csproj /p:platform="Any CPU"
-          
-      - name: Build TestFenceBuildingVm
-        run: |
-          msbuild.exe .\src\TestFenceBuildingVm\TestFenceBuildingVm.csproj /p:platform="Any CPU"
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
-      - name: Run TestBuilder
+      - name: Run Tests
         run: |
           vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
-          
-      - name: Run TestCore
-        run: |
           vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
-          
-      - name: Run TestFenceBuildingVm
-        run: |
           vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
