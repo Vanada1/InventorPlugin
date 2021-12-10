@@ -26,15 +26,15 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Restore Packages
-        run: nuget restore .\srs\InventorPlugin.sln
+        run: nuget restore .\src\InventorPlugin.sln
 
       - name: Build Solution
         run: |
-          msbuild.exe .\srs\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
       - name: Run Tests
-        run: vstest.console.exe .\TestBuilder\bin\Release\TestBuilder.dll
+        run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
       - name: Run Tests
-        run: vstest.console.exe .\TestCore\bin\Release\TestCore.dll
+        run: vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
       - name: Run Tests
-        run: vstest.console.exe .\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
+        run: vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
