@@ -28,15 +28,14 @@ jobs:
       - name: Restore Packages
         run: nuget restore .\src\InventorPlugin.sln
 
-      - name: Build Solution
+      - name: Build TestBuilder
         run: |
-          msbuild.exe .\src\Test*\*.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\TestBuilder\*.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\TestCore\*.csproj /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\TestFenceBuildingVm\*.csproj /p:platform="Any CPU" /p:configuration="Release"
         
       - name: Run TestBuilder
-        run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
-        
-      - name: Run TestCore
-        run: vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
-        
-      - name: Run TestFenceBuildingVm1
-        run: vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
+        run: |
+          vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
+          vstest.console.exe .\src\TestCore\bin\Release\TestCore.dll
+          vstest.console.exe .\src\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
