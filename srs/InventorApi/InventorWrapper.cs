@@ -88,13 +88,13 @@ namespace InventorApi
 		/// <inheritdoc/>
 		public ISketch CreateNewSketch(int n, double offset)
 		{
-			return new Sketch(MakeNewSketch(n, offset), TransientGeometry);
+			return new InventorSketch(MakeNewSketch(n, offset), TransientGeometry);
 		}
 
 		/// <inheritdoc/>
 		public void Extrude(ISketch sketch, double distance)
 		{
-			if (!(sketch is Sketch planarSketch))
+			if (!(sketch is InventorSketch planarSketch))
 			{
 				throw new ArgumentException("Не подходящий экземпляр эскиза.");
 			}

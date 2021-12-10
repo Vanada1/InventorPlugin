@@ -111,7 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InventorWrapper.cs" />
-    <Compile Include="Sketch.cs" />
+    <Compile Include="InventorSketch.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

@@ -7,7 +7,7 @@ namespace InventorApi
 	/// <summary>
 	/// Класс эскиза для Inventor API.
 	/// </summary>
-	internal class Sketch : ISketch
+	internal class InventorSketch : ISketch
 	{
 		
 		/// <summary>
@@ -25,7 +25,7 @@ namespace InventorApi
 		/// </summary>
 		/// <param name="planarSketch">Эскиз.</param>
 		/// <param name="transientGeometry">Геометрия приложения.</param>
-		public Sketch(PlanarSketch planarSketch, TransientGeometry transientGeometry)
+		public InventorSketch(PlanarSketch planarSketch, TransientGeometry transientGeometry)
 		{
 			PlanarSketch = planarSketch;
 			_transientGeometry = transientGeometry;
