@@ -26,11 +26,11 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Restore Packages
-        run: nuget restore src\InventorPlugin.sln
+        run: nuget restore .\src\InventorPlugin.sln
 
       - name: Build Solution
         run: |
-          msbuild.exe src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
       - name: Run TestBuilder
         run: vstest.console.exe .\src\TestBuilder\bin\Release\TestBuilder.dll
