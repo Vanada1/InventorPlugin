@@ -26,11 +26,15 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Restore Packages
-        run: nuget restore Sandbox.sln
+        run: nuget restore .\srs\InventorPlugin.sln
 
       - name: Build Solution
         run: |
-          msbuild.exe Sandbox.sln /p:platform="Any CPU" /p:configuration="Release"
+          msbuild.exe .\srs\InventorPlugin.sln /p:platform="Any CPU" /p:configuration="Release"
         
       - name: Run Tests
-        run: vstest.console.exe .\tests\Sandbox.Tests\bin\Release\Sandbox.Tests.dll
+        run: vstest.console.exe .\TestBuilder\bin\Release\TestBuilder.dll
+      - name: Run Tests
+        run: vstest.console.exe .\TestCore\bin\Release\TestCore.dll
+      - name: Run Tests
+        run: vstest.console.exe .\TestFenceBuildingVm\bin\Release\TestFenceBuildingVm.dll
