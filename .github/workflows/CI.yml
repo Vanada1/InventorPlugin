@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Solution
         run: |
-          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration=$config
+          msbuild.exe .\src\InventorPlugin.sln /p:platform="Any CPU" /p:configuration= $config
         
       - name: Run UnitTests
         run: |
