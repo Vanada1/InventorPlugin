@@ -26,11 +26,6 @@ namespace FenceBuildingVm
 			new Dictionary<string, string>();
 
 		/// <summary>
-		/// Словарь присвоения значений по определенным параметрам.
-		/// </summary>
-		private readonly Dictionary<Parameters, Action<double>> _actions;
-
-		/// <summary>
 		/// Параметры забора.
 		/// </summary>
 		private readonly FenceParameters _fenceParameters;
@@ -102,7 +97,7 @@ namespace FenceBuildingVm
 			get => _columnWidth;
 			set
 			{
-				Set(Parameters.ColumnWidth, value);
+				Set(ParameterType.ColumnWidth, value);
 				Set(ref _columnWidth, value);
 			}
 		}
@@ -115,7 +110,7 @@ namespace FenceBuildingVm
 			get => _distanceLowerBaffles;
 			set
 			{
-				Set(Parameters.DistanceLowerBaffles, value);
+				Set(ParameterType.DistanceLowerBaffles, value);
 				Set(ref _distanceLowerBaffles, value);
 			}
 		}
@@ -128,7 +123,7 @@ namespace FenceBuildingVm
 			get => _distanceUpperBaffles;
 			set
 			{
-				Set(Parameters.DistanceUpperBaffles, value);
+				Set(ParameterType.DistanceUpperBaffles, value);
 				Set(ref _distanceUpperBaffles, value);
 			}
 		}
@@ -141,7 +136,7 @@ namespace FenceBuildingVm
 			get => _fenceLength;
 			set
 			{
-				Set(Parameters.FenceLength, value);
+				Set(ParameterType.FenceLength, value);
 				Set(ref _fenceLength, value);
 			}
 		}
@@ -154,7 +149,7 @@ namespace FenceBuildingVm
 			get => _immersionDepth;
 			set
 			{
-				Set(Parameters.ImmersionDepth, value);
+				Set(ParameterType.ImmersionDepth, value);
 				Set(ref _immersionDepth, value);
 			}
 		}
@@ -167,7 +162,7 @@ namespace FenceBuildingVm
 			get => _topFenceHeight;
 			set
 			{
-				Set(Parameters.TopFenceHeight, value);
+				Set(ParameterType.TopFenceHeight, value);
 				Set(ref _topFenceHeight, value);
 			}
 		}
@@ -246,16 +241,6 @@ namespace FenceBuildingVm
 
 			_fenceParameters = new FenceParameters();
 
-			_actions = new Dictionary<Parameters, Action<double>>
-			{
-				{ Parameters.ColumnWidth, value => _fenceParameters.ColumnWidth = value },
-				{ Parameters.DistanceLowerBaffles, value => _fenceParameters.DistanceLowerBaffles = value },
-				{ Parameters.DistanceUpperBaffles, value => _fenceParameters.DistanceUpperBaffles = value },
-				{ Parameters.FenceLength, value => _fenceParameters.FenceLength = value },
-				{ Parameters.ImmersionDepth, value => _fenceParameters.ImmersionDepth = value },
-				{ Parameters.TopFenceHeight, value => _fenceParameters.TopFenceHeight = value },
-			};
-
 			BuildCommand = new RelayCommand(BuildFence);
 			SetValues();
 		}
@@ -269,22 +254,28 @@ namespace FenceBuildingVm
 		/// </summary>
 		private void SetValues()
 		{
-			ColumnWidth = _fenceParameters.ColumnWidth.ToString();
-			DistanceLowerBaffles = _fenceParameters.DistanceLowerBaffles.ToString();
-			DistanceUpperBaffles = _fenceParameters.DistanceUpperBaffles.ToString();
-			FenceLength = _fenceParameters.FenceLength.ToString();
-			ImmersionDepth = _fenceParameters.ImmersionDepth.ToString();
-			TopFenceHeight = _fenceParameters.TopFenceHeight.ToString();
+			ColumnWidth = _fenceParameters.GetValue(
+				ParameterType.ColumnWidth).ToString();
+			DistanceLowerBaffles = _fenceParameters.GetValue(
+				ParameterType.DistanceLowerBaffles).ToString();
+			DistanceUpperBaffles = _fenceParameters.GetValue(
+				ParameterType.DistanceUpperBaffles).ToString();
+			FenceLength = _fenceParameters.GetValue(
+				ParameterType.FenceLength).ToString();
+			ImmersionDepth = _fenceParameters.GetValue(
+				ParameterType.ImmersionDepth).ToString();
+			TopFenceHeight = _fenceParameters.GetValue(
+				ParameterType.TopFenceHeight).ToString();
 		}
 
 		/// <summary>
 		/// Установить значение параметра объекту <see cref="FenceParameters"/>.
 		/// </summary>
-		/// <param name="parameter">Параметр для присвоения значения.</param>
+		/// <param name="parameterType">Параметр для присвоения значения.</param>
 		/// <param name="value">Значение в строковом виде.</param>
-		private void Set(Parameters parameter, string value)
+		private void Set(ParameterType parameterType, string value)
 		{
-			var propertyName = parameter.ToString();
+			var propertyName = parameterType.ToString();
 			if (!CanChangeValue(value, propertyName, out var doubleValue))
 			{
 				return;
@@ -292,11 +283,11 @@ namespace FenceBuildingVm
 
 			try
 			{
-				_actions[parameter](doubleValue);
+				_fenceParameters.SetValue(parameterType, doubleValue);
 				if (!_isDependencyCheck)
 				{
 					_isDependencyCheck = true;
-					CheckDependency(parameter);
+					CheckDependency(parameterType);
 					_isDependencyCheck = false;
 				}
 
@@ -308,29 +299,29 @@ namespace FenceBuildingVm
 			}
 		}
 
-		private void CheckDependency(Parameters parameter)
+		private void CheckDependency(ParameterType parameterType)
 		{
-			switch (parameter)
+			switch (parameterType)
 			{
-				case Parameters.ColumnWidth:
+				case ParameterType.ColumnWidth:
 					{
-						Set(Parameters.DistanceLowerBaffles, DistanceLowerBaffles);
-						Set(Parameters.DistanceUpperBaffles, DistanceUpperBaffles);
+						Set(ParameterType.DistanceLowerBaffles, DistanceLowerBaffles);
+						Set(ParameterType.DistanceUpperBaffles, DistanceUpperBaffles);
 						break;
 					}
-				case Parameters.TopFenceHeight:
+				case ParameterType.TopFenceHeight:
 					{
-						Set(Parameters.ImmersionDepth, ImmersionDepth);
+						Set(ParameterType.ImmersionDepth, ImmersionDepth);
 						break;
 					}
-				case Parameters.ImmersionDepth:
+				case ParameterType.ImmersionDepth:
 					{
-						Set(Parameters.TopFenceHeight, TopFenceHeight);
+						Set(ParameterType.TopFenceHeight, TopFenceHeight);
 						break;
 					}
-				case Parameters.DistanceLowerBaffles:
-				case Parameters.DistanceUpperBaffles:
-				case Parameters.FenceLength:
+				case ParameterType.DistanceLowerBaffles:
+				case ParameterType.DistanceUpperBaffles:
+				case ParameterType.FenceLength:
 				default:
 					{
 						break;

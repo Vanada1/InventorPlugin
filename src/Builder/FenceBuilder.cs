@@ -31,38 +31,47 @@ namespace Builder
 		/// <summary>
 		/// Возвращает координату средней палки в мм.
 		/// </summary>
-		private double MiddleStickY => 0.75 * _fenceParameters.TopFenceHeight / _apiService.Unit
-									   + _fenceParameters.ImmersionDepth / _apiService.Unit;
+		private double MiddleStickY => 0.75 *
+		                               _fenceParameters.GetValue(ParameterType.TopFenceHeight) /
+		                               _apiService.Unit +
+		                               _fenceParameters.GetValue(ParameterType.ImmersionDepth) /
+		                               _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение ширины столбика в мм.
 		/// </summary>
-		private double ColumnWidth => _fenceParameters.ColumnWidth / _apiService.Unit;
+		private double ColumnWidth => _fenceParameters.GetValue(
+			ParameterType.ColumnWidth) / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение расстояния между нижними перегородками в мм. 
 		/// </summary>
-		private double DistanceLowerBaffles => _fenceParameters.DistanceLowerBaffles / _apiService.Unit;
+		private double DistanceLowerBaffles => _fenceParameters.GetValue(
+			ParameterType.DistanceLowerBaffles) / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение расстояния между верхними перегородками в мм. 
 		/// </summary>
-		private double DistanceUpperBaffles => _fenceParameters.DistanceUpperBaffles / _apiService.Unit;
+		private double DistanceUpperBaffles => _fenceParameters.GetValue(
+			ParameterType.DistanceUpperBaffles) / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение высоты забора в мм.
 		/// </summary>
-		private double FenceLength => _fenceParameters.FenceLength / _apiService.Unit;
+		private double FenceLength => _fenceParameters.GetValue(
+			ParameterType.FenceLength) / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение глубины погружения в мм.
 		/// </summary>
-		private double ImmersionDepth => _fenceParameters.ImmersionDepth / _apiService.Unit;
+		private double ImmersionDepth => _fenceParameters.GetValue(
+			ParameterType.ImmersionDepth) / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает значение высоты верхней части забора в мм.
 		/// </summary>
-		private double TopFenceHeight => _fenceParameters.TopFenceHeight / _apiService.Unit;
+		private double TopFenceHeight => _fenceParameters.GetValue(
+			ParameterType.TopFenceHeight) / _apiService.Unit;
 
 		/// <summary>
 		/// Возвращает общую высоту забора в мм.
