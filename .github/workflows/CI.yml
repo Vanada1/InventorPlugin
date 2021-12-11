@@ -37,6 +37,7 @@ jobs:
         
       - name: Run UnitTests
         run: |
+          vstest.console.exe /?
           vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll
           vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll
           vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll
