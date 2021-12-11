@@ -37,6 +37,6 @@ jobs:
         
       - name: Run UnitTests
         run: |
-          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll /Framework:".NETFramework,Version=v4.7.2"
-          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll /Framework:".NETFramework,Version=v4.7.2"
-          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll /Framework:".NETFramework,Version=v4.7.2"
+          vstest.console.exe .\src\TestBuilder\bin\UnitTests\TestBuilder.dll /Framework:".NETFramework,Version=v4.7.2" /InIsolation
+          vstest.console.exe .\src\TestCore\bin\UnitTests\TestCore.dll /Framework:".NETFramework,Version=v4.7.2" /InIsolation
+          vstest.console.exe .\src\TestFenceBuildingVm\bin\UnitTests\TestFenceBuildingVm.dll /Framework:".NETFramework,Version=v4.7.2" /InIsolation
