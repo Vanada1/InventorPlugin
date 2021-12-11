@@ -137,7 +137,6 @@ namespace Core
 
 		#endregion
 
-
 		#region -- Private Methods --
 
 		/// <summary>
