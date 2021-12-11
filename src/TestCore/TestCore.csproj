@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestFenceParameters.cs" />
+    <Compile Include="TestParameter.cs" />
     <Compile Include="TestValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

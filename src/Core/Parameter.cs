@@ -1,4 +1,6 @@
-﻿namespace Core
+﻿using System;
+
+namespace Core
 {
 	/// <summary>
 	/// Класс параметра.
@@ -11,14 +13,14 @@
 		private double _value;
 
 		/// <summary>
-		/// Возвращает максимальное значение.
-		/// </summary>
-		public double MaxValue { get; internal set; }
-
-		/// <summary>
 		/// Возвращает минимальное значение.
 		/// </summary>
 		public double MinValue { get; internal set; }
+
+		/// <summary>
+		/// Возвращает максимальное значение.
+		/// </summary>
+		public double MaxValue { get; internal set; }
 
 		/// <summary>
 		/// Возвращает и устанавливает значение параметра.
@@ -29,7 +31,11 @@
 			set
 			{
 				_value = value;
-				Validator.Validate(_value, MinValue, MaxValue);
+				if (!Validator.Validate(_value, MinValue, MaxValue))
+				{
+					throw new ArgumentException(
+						$"значение не входит диапазон {MinValue} — {MaxValue}");
+				}
 			}
 		}
 
@@ -41,6 +47,12 @@
 		/// <param name="value">Значение параметра.</param>
 		public Parameter(double minValue, double maxValue, double value)
 		{
+			if (minValue > maxValue)
+			{
+				throw new ArgumentException(
+					"Значение минимума больше значения максимума.");
+			}
+
 			MinValue = minValue;
 			MaxValue = maxValue;
 			Value = value;

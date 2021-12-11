@@ -26,11 +26,6 @@ namespace FenceBuildingVm
 			new Dictionary<string, string>();
 
 		/// <summary>
-		/// Словарь присвоения значений по определенным параметрам.
-		/// </summary>
-		private readonly Dictionary<ParameterType, Action<double>> _actions;
-
-		/// <summary>
 		/// Параметры забора.
 		/// </summary>
 		private readonly FenceParameters _fenceParameters;
@@ -246,16 +241,6 @@ namespace FenceBuildingVm
 
 			_fenceParameters = new FenceParameters();
 
-			_actions = new Dictionary<ParameterType, Action<double>>
-			{
-				{ ParameterType.ColumnWidth, value => _fenceParameters.ColumnWidth = value },
-				{ ParameterType.DistanceLowerBaffles, value => _fenceParameters.DistanceLowerBaffles = value },
-				{ ParameterType.DistanceUpperBaffles, value => _fenceParameters.DistanceUpperBaffles = value },
-				{ ParameterType.FenceLength, value => _fenceParameters.FenceLength = value },
-				{ ParameterType.ImmersionDepth, value => _fenceParameters.ImmersionDepth = value },
-				{ ParameterType.TopFenceHeight, value => _fenceParameters.TopFenceHeight = value },
-			};
-
 			BuildCommand = new RelayCommand(BuildFence);
 			SetValues();
 		}
@@ -269,12 +254,18 @@ namespace FenceBuildingVm
 		/// </summary>
 		private void SetValues()
 		{
-			ColumnWidth = _fenceParameters.ColumnWidth.ToString();
-			DistanceLowerBaffles = _fenceParameters.DistanceLowerBaffles.ToString();
-			DistanceUpperBaffles = _fenceParameters.DistanceUpperBaffles.ToString();
-			FenceLength = _fenceParameters.FenceLength.ToString();
-			ImmersionDepth = _fenceParameters.ImmersionDepth.ToString();
-			TopFenceHeight = _fenceParameters.TopFenceHeight.ToString();
+			ColumnWidth = _fenceParameters.GetValue(
+				ParameterType.ColumnWidth).ToString();
+			DistanceLowerBaffles = _fenceParameters.GetValue(
+				ParameterType.DistanceLowerBaffles).ToString();
+			DistanceUpperBaffles = _fenceParameters.GetValue(
+				ParameterType.DistanceUpperBaffles).ToString();
+			FenceLength = _fenceParameters.GetValue(
+				ParameterType.FenceLength).ToString();
+			ImmersionDepth = _fenceParameters.GetValue(
+				ParameterType.ImmersionDepth).ToString();
+			TopFenceHeight = _fenceParameters.GetValue(
+				ParameterType.TopFenceHeight).ToString();
 		}
 
 		/// <summary>
@@ -292,7 +283,7 @@ namespace FenceBuildingVm
 
 			try
 			{
-				_actions[parameterType](doubleValue);
+				_fenceParameters.SetValue(parameterType, doubleValue);
 				if (!_isDependencyCheck)
 				{
 					_isDependencyCheck = true;
