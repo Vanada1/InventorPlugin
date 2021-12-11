@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Перечисление параметров забора.
 	/// </summary>
-	public enum Parameters
+	public enum ParameterType
 	{
 		/// <summary>
 		/// Ширина столбика.

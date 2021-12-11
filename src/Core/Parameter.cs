@@ -13,12 +13,12 @@
 		/// <summary>
 		/// Возвращает максимальное значение.
 		/// </summary>
-		public double MaxValue { get; }
+		public double MaxValue { get; internal set; }
 
 		/// <summary>
 		/// Возвращает минимальное значение.
 		/// </summary>
-		public double MinValue { get; }
+		public double MinValue { get; internal set; }
 
 		/// <summary>
 		/// Возвращает и устанавливает значение параметра.

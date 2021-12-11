@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Core
 {
@@ -52,6 +53,26 @@ namespace Core
 		/// Высота верхней части.
 		/// </summary>
 		private double _topFenceHeight = double.NaN;
+
+		/// <summary>
+		/// Словарь параметров.
+		/// </summary>
+		private Dictionary<ParameterType, Parameter> _parameters =
+			new Dictionary<ParameterType, Parameter>
+		{
+			{ ParameterType.ColumnWidth, new Parameter(10.0,
+				70.0, 10.0) },
+			{ ParameterType.DistanceLowerBaffles, new Parameter(
+				10.0, 1500.0, 30.0) },
+			{ ParameterType.DistanceUpperBaffles, new Parameter(
+				10.0, 1500.0, 40.0) },
+			{ ParameterType.FenceLength, new Parameter(
+				1000.0, 3000.0, 2000.0) },
+			{ ParameterType.ImmersionDepth, new Parameter(
+				MinHeight / 3, MinHeight * 0.5, 500.0) },
+			{ ParameterType.TopFenceHeight, new Parameter(
+				MinHeight / 3 * 2, MinHeight * 1.5, 1000.0) },
+		};
 
 		#endregion
 
@@ -143,9 +164,9 @@ namespace Core
 			get => _topFenceHeight;
 			set
 			{
-				var minValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 3 :
+				var minValue = (double.IsNaN(ImmersionDepth) ? MinHeight / 3 :
 					ImmersionDepth) * 2;
-				var maxValue = (double.IsNaN(TopFenceHeight) ? MinHeight / 2 :
+				var maxValue = (double.IsNaN(ImmersionDepth) ? MinHeight / 2 :
 					ImmersionDepth) * 3;
 				SetValue(ref _topFenceHeight, value, minValue,
 					maxValue);
@@ -159,6 +180,7 @@ namespace Core
 		public double FenceHeight => TopFenceHeight + ImmersionDepth;
 
 		#endregion
+
 
 		#region -- Constructors --
 
@@ -176,6 +198,81 @@ namespace Core
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Установить значение параметра.
+		/// </summary>
+		/// <param name="parameterType">Тип параметра..</param>
+		/// <param name="value">Значение параметра.</param>
+		public void SetValue(ParameterType parameterType, double value)
+		{
+			var minValue = _parameters[parameterType].MinValue;
+			var maxValue = _parameters[parameterType].MaxValue;
+
+			switch (parameterType)
+			{
+				case ParameterType.FenceLength:
+				case ParameterType.ColumnWidth:
+				{
+					break;
+				}
+				case ParameterType.DistanceUpperBaffles:
+				case ParameterType.DistanceLowerBaffles:
+				{
+					minValue = double.IsNaN(
+						_parameters[ParameterType.ColumnWidth].Value)
+						? 10.0
+						: ColumnWidth;
+					maxValue = (double.IsNaN(
+						_parameters[ParameterType.FenceLength].Value)
+						? 3000.0
+						: FenceLength) / 2;
+					break;
+				}
+				case ParameterType.ImmersionDepth:
+				{
+					minValue = (double.IsNaN(
+							_parameters[ParameterType.TopFenceHeight].Value)
+							? MinHeight
+							: TopFenceHeight) / 3;
+					maxValue = (double.IsNaN(
+							_parameters[ParameterType.TopFenceHeight].Value) ?
+							MinHeight :
+							TopFenceHeight) * 0.5;
+						break;
+				}
+				case ParameterType.TopFenceHeight:
+				{
+					minValue = (double.IsNaN(
+						_parameters[ParameterType.ImmersionDepth].Value)
+						? MinHeight / 3
+						: ImmersionDepth) * 2;
+					maxValue = (double.IsNaN(
+						_parameters[ParameterType.ImmersionDepth].Value)
+						? MinHeight / 2
+						: ImmersionDepth) * 3;
+						break;
+				}
+				default:
+				{
+					throw new ArgumentOutOfRangeException(nameof(parameterType), parameterType, null);
+				}
+			}
+
+			_parameters[parameterType].MinValue = minValue;
+			_parameters[parameterType].MaxValue = maxValue;
+			_parameters[parameterType].Value = value;
+		}
+
+		/// <summary>
+		/// Получить значение параметра.
+		/// </summary>
+		/// <param name="parameterType">Тип параметра.</param>
+		/// <returns>Значение параметра.</returns>
+		public double GetValue(ParameterType parameterType)
+		{
+			return _parameters[parameterType].Value;
+		}
 
 		#region -- Private Methods --
 
