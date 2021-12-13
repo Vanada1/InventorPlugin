@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 namespace Builder
 {
-
-	//TODO: Попробовать отделить от Inventor-a (+)
 	/// <summary>
 	/// Класс для создания забора.
 	/// </summary>
