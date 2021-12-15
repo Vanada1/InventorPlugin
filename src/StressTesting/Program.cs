@@ -2,6 +2,7 @@
 using Core;
 using InventorApi;
 using KompasApi;
+using Microsoft.VisualBasic.Devices;
 using Services;
 using System;
 using System.Diagnostics;
@@ -13,8 +14,8 @@ namespace StressTesting
 	{
 		static void Main(string[] args)
 		{
-			TestInventor();
-			//TestKompas3D();
+			//TestInventor();
+			TestKompas3D();
 		}
 
 		private static void TestInventor()
@@ -34,19 +35,23 @@ namespace StressTesting
 			stopWatch.Start();
 			var fenceParameters = new FenceParameters();
 			var streamWriter = new StreamWriter($"log{apiService}.txt", true);
+			Process currentProcess = System.Diagnostics.Process.GetCurrentProcess();
 			var count = 0;
-			var stopCount = 40;
-			while (count < stopCount)
+			while (true)
 			{
 				builder.BuildFence(fenceParameters, apiService);
-				streamWriter.WriteLine($"{++count} -- {stopWatch.Elapsed:hh\\:mm\\:ss}");
+				var computerInfo = new ComputerInfo();
+				var usedMemory = (computerInfo.TotalPhysicalMemory - computerInfo.AvailablePhysicalMemory) *
+				                 0.000000000931322574615478515625;
+				streamWriter.WriteLine(
+					$"{++count}\t{stopWatch.Elapsed:hh\\:mm\\:ss}\t{usedMemory}");
 				streamWriter.Flush();
 			}
 
 			stopWatch.Stop();
 			streamWriter.Close();
 			streamWriter.Dispose();
-			Console.Write($"End {stopWatch.Elapsed}");
+			Console.Write($"End {new ComputerInfo().TotalPhysicalMemory}");
 		}
 	}
 }
