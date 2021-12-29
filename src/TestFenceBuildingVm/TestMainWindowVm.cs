@@ -1,8 +1,8 @@
-﻿using CommonTestClass;
-using FenceBuildingVm;
+﻿using FenceBuildingVm;
 using NUnit.Framework;
 using Services;
 using System.Collections.Generic;
+using Moq;
 using Assert = NUnit.Framework.Assert;
 
 namespace TestFenceBuildingVm
@@ -27,7 +27,7 @@ namespace TestFenceBuildingVm
 		/// Возвращает новый экземпляр класса <see cref="MainWindowVm"/>.
 		/// </summary>
 		private MainWindowVm ViewModel => new MainWindowVm(_messageBoxService,
-			_buildFenceService, new List<IApiService> { new TestApiService() });
+			_buildFenceService, new List<IApiService> { new Mock<IApiService>().Object });
 
 		#region -- Test INotifyDataErrorInfo --
 
@@ -394,7 +394,7 @@ namespace TestFenceBuildingVm
 		{
 			var viewModel = ViewModel;
 
-			var expected = new TestApiService();
+			var expected = new Mock<IApiService>().Object;
 
 			viewModel.SelectedApi = expected;
 
@@ -408,7 +408,7 @@ namespace TestFenceBuildingVm
 		{
 			var viewModel = ViewModel;
 
-			Assert.DoesNotThrow(() => viewModel.SelectedApi = new TestApiService(),
+			Assert.DoesNotThrow(() => viewModel.SelectedApi = new Mock<IApiService>().Object,
 				"Не удалось присвоить корректное значение.");
 		}
 
